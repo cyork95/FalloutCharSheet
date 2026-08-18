@@ -6,18 +6,22 @@ A responsive, retro-futuristic single-page character tracking dossier web applic
 1. **Commander Nate** — *Fallout 4 (LoreOut / You Are Exceptional modded run)*
    - Principled Minutemen General & Pre-War Military Veteran.
    - S.P.E.C.I.A.L. baseline, Rifleman / Inspirational build, Tri-Faction Cold Peace doctrine, fire support artillery rules.
+   - **Auto-switches to Classic P31 Pip-Boy Green (`#18ff62`)**.
+   - Includes **The Tri-Faction Cold Peace Survival Matrix** (avoiding BoS hostility at *Mass Fusion*, preventing Railroad hostility by avoiding Kells after *Blind Betrayal*, and properly diverting into the Minutemen ending).
 2. **Reeve Sawyer** — *Tale of Two Wastelands (Best of Both Worlds / JSawyer modded run)*
    - Naive Vault 101 Expatriate / Aspiring White-Hat Lawman.
    - High Luck/Charisma, Cowboy / DT build, strict hard chem bans, saloon habits, and diplomatic de-escalation directives.
+   - **Auto-switches to New Vegas P13 Amber (`#ffb642`)**.
+   - Includes **Wasteland & Mojave Diplomatic Cutoff Guide** (Megaton bomb defusal, 3-strike faction infamy rules, BoS-NCR peace treaty negotiations).
 
 ## Key Features & CRT Visuals
-- **Authentic Phosphor CRT Aesthetics**: Green phosphor default (`#18ff62` on `#09120b`), subtle scanlines, faint CRT curvature/vignette overlay, monospace typography (`Share Tech Mono` and `VT323`), glowing borders and text bloom.
-- **Phosphor Color Themes**: Switch between **P31 Green**, **P13 Amber**, **P4 White/Cyan**, and **Restricted Red**.
+- **Dynamic Phosphor Transition**: Auto-switches between **Pip-Boy Green** (Nate / Commonwealth) and **New Vegas Amber** (Reeve / Mojave), with manual overrides for **P4 Cyan/White** and **Restricted Red**.
+- **Live `localStorage` Checkbox Tracker**: Interactive retro terminal checkboxes for Level 1–10 perks and skill targets (e.g. Explosives 30+, Science 30+, Medicine 30+) that save progress directly to browser storage.
+- **Quest & Faction Cutoff Matrix**: Collapsible story intelligence drawer detailing critical points of no return, faction hostility triggers, and safe ending walkthroughs.
+- **Authentic Phosphor CRT Aesthetics**: Scanlines, CRT curvature/vignette overlay, monospace typography (`Share Tech Mono` and `VT323`), glowing borders, text bloom, and favicon.
 - **CRT FX Toggle**: Quick toggle button to disable scanlines and bloom for clean reading mode.
 - **Procedural Terminal Audio**: Built-in Web Audio API sound synthesizer simulating authentic terminal beeps and mechanical keyboard keystrokes without external audio files.
-- **Interactive Perk Blueprint**: Click to mark planned perks as acquired (persisted in `localStorage`).
-- **Responsive Layout**: Desktop multi-column grid adapting seamlessly to tablet and mobile viewports.
-- **Print / PDF Export**: Clean, high-contrast print stylesheet for physical dossier sheets.
+- **Responsive Layout & Print Stylesheet**: Adapts fluidly across mobile, tablet, and desktop, plus high-contrast clean printing for physical character sheets.
 
-## How to Run
-Simply open `index.html` in any modern web browser or deploy directly to GitHub Pages / static hosting.
+## Live Deployment
+- **URL**: [https://yorkdevelops.com/FalloutCharSheet/](https://yorkdevelops.com/FalloutCharSheet/)

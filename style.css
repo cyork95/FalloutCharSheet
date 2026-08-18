@@ -6,8 +6,8 @@
 :root {
   /* Default Green Phosphor Colors */
   --term-bg: #070d08;
-  --term-bg-card: rgba(10, 24, 13, 0.82);
-  --term-bg-card-hover: rgba(14, 34, 18, 0.92);
+  --term-bg-card: rgba(10, 24, 13, 0.88);
+  --term-bg-card-hover: rgba(14, 34, 18, 0.94);
   --term-bg-subtle: rgba(24, 255, 98, 0.08);
   --term-bg-highlight: rgba(24, 255, 98, 0.18);
   
@@ -30,8 +30,8 @@
 /* Color Theme Presets */
 body.theme-amber {
   --term-bg: #0d0a05;
-  --term-bg-card: rgba(28, 20, 8, 0.82);
-  --term-bg-card-hover: rgba(40, 28, 12, 0.92);
+  --term-bg-card: rgba(28, 20, 8, 0.88);
+  --term-bg-card-hover: rgba(40, 28, 12, 0.94);
   --term-bg-subtle: rgba(255, 182, 66, 0.08);
   --term-bg-highlight: rgba(255, 182, 66, 0.18);
   --term-color: #ffb642;
@@ -46,8 +46,8 @@ body.theme-amber {
 
 body.theme-cyan {
   --term-bg: #050d0f;
-  --term-bg-card: rgba(8, 24, 28, 0.82);
-  --term-bg-card-hover: rgba(12, 36, 42, 0.92);
+  --term-bg-card: rgba(8, 24, 28, 0.88);
+  --term-bg-card-hover: rgba(12, 36, 42, 0.94);
   --term-bg-subtle: rgba(56, 253, 253, 0.08);
   --term-bg-highlight: rgba(56, 253, 253, 0.18);
   --term-color: #38fdfd;
@@ -62,8 +62,8 @@ body.theme-cyan {
 
 body.theme-red {
   --term-bg: #110505;
-  --term-bg-card: rgba(30, 10, 10, 0.82);
-  --term-bg-card-hover: rgba(45, 14, 14, 0.92);
+  --term-bg-card: rgba(30, 10, 10, 0.88);
+  --term-bg-card-hover: rgba(45, 14, 14, 0.94);
   --term-bg-subtle: rgba(255, 68, 68, 0.08);
   --term-bg-highlight: rgba(255, 68, 68, 0.18);
   --term-color: #ff4444;
@@ -94,6 +94,7 @@ html, body {
   letter-spacing: 0.05em;
   min-height: 100vh;
   overflow-x: hidden;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 /* Phosphor Glow on Text */
@@ -424,6 +425,10 @@ select:focus {
   box-shadow: 0 0 8px rgba(24, 255, 98, 0.2);
 }
 
+body.theme-amber .robco-card:hover {
+  box-shadow: 0 0 8px rgba(255, 182, 66, 0.2);
+}
+
 /* Corner bracket accents */
 .robco-card::before {
   content: "";
@@ -496,6 +501,10 @@ select:focus {
   align-items: center;
   position: relative;
   box-shadow: 0 0 10px rgba(24, 255, 98, 0.3);
+}
+
+body.theme-amber .avatar-frame {
+  box-shadow: 0 0 10px rgba(255, 182, 66, 0.3);
 }
 
 .avatar-icon {
@@ -639,6 +648,10 @@ select:focus {
   border: 1px solid var(--term-border-dim);
 }
 
+body.theme-amber .special-pip {
+  background: rgba(255, 182, 66, 0.1);
+}
+
 .special-pip.filled {
   background: var(--term-color);
   box-shadow: 0 0 4px var(--term-color);
@@ -651,7 +664,7 @@ select:focus {
 }
 
 /* -----------------------------------------------------------------------------
-   TAG SKILLS & MILESTONE TARGETS
+   TAG SKILLS & MILESTONE TARGETS WITH CHECKBOXES
    ----------------------------------------------------------------------------- */
 .tags-container {
   display: flex;
@@ -680,14 +693,27 @@ select:focus {
 .targets-list {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.55rem;
   margin-top: 0.25rem;
 }
 
 .target-item {
   background: var(--term-bg-subtle);
   border: 1px solid var(--term-border-dim);
-  padding: 0.5rem 0.75rem;
+  padding: 0.55rem 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.target-item:hover {
+  background: var(--term-bg-highlight);
+  border-color: var(--term-border);
+}
+
+.target-item.achieved {
+  border-color: var(--term-color-bright);
+  background: var(--term-bg-highlight);
 }
 
 .target-header {
@@ -695,6 +721,12 @@ select:focus {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0.3rem;
+}
+
+.target-left-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .target-skill-name {
@@ -711,7 +743,7 @@ select:focus {
 }
 
 .progress-track {
-  height: 6px;
+  height: 7px;
   width: 100%;
   background: rgba(24, 255, 98, 0.15);
   border: 1px solid var(--term-border-dim);
@@ -719,15 +751,50 @@ select:focus {
   margin-bottom: 0.35rem;
 }
 
+body.theme-amber .progress-track {
+  background: rgba(255, 182, 66, 0.15);
+}
+
 .progress-fill {
   height: 100%;
   background: var(--term-color);
   box-shadow: 0 0 6px var(--term-color);
+  transition: width 0.3s ease;
+}
+
+.target-item.achieved .progress-fill {
+  width: 100% !important;
+  background: var(--term-color-bright);
 }
 
 .target-rationale {
   font-size: 0.78rem;
-  color: var(--term-color-dim);
+  color: var(--term-color);
+  opacity: 0.88;
+}
+
+/* Retro Terminal Checkbox */
+.term-checkbox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  background: var(--term-bg);
+  border: 1px solid var(--term-border);
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: var(--term-color-bright);
+  user-select: none;
+  box-shadow: inset 0 0 4px var(--term-border-dim);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.term-checkbox.checked {
+  background: var(--term-color);
+  color: #000;
+  box-shadow: 0 0 6px var(--term-color);
 }
 
 /* -----------------------------------------------------------------------------
@@ -791,13 +858,14 @@ select:focus {
 
 .perk-step {
   display: grid;
-  grid-template-columns: 65px 1fr;
+  grid-template-columns: 65px 1fr auto;
   gap: 0.85rem;
-  align-items: stretch;
+  align-items: center;
   background: var(--term-bg-subtle);
   border: 1px solid var(--term-border-dim);
   transition: all 0.2s ease;
   cursor: pointer;
+  padding-right: 0.85rem;
 }
 
 .perk-step:hover {
@@ -808,6 +876,7 @@ select:focus {
 
 .perk-step.completed {
   border-color: var(--term-color);
+  background: var(--term-bg-highlight);
 }
 
 .perk-step.completed .perk-lvl-box {
@@ -825,7 +894,8 @@ select:focus {
   font-weight: bold;
   font-size: 1rem;
   font-family: var(--font-display);
-  padding: 0.4rem;
+  padding: 0.45rem;
+  min-height: 100%;
 }
 
 .perk-lvl-box .lvl-sub {
@@ -835,7 +905,7 @@ select:focus {
 }
 
 .perk-info {
-  padding: 0.5rem 0.75rem 0.5rem 0;
+  padding: 0.5rem 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -843,8 +913,9 @@ select:focus {
 
 .perk-title-row {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
 }
 
 .perk-name {
@@ -854,8 +925,16 @@ select:focus {
 }
 
 .perk-status {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: var(--term-color-dim);
+  background: var(--term-bg);
+  border: 1px solid var(--term-border-dim);
+  padding: 0 4px;
+}
+
+.perk-step.completed .perk-status {
+  color: var(--term-color-bright);
+  border-color: var(--term-color);
 }
 
 .perk-detail {
@@ -863,6 +942,129 @@ select:focus {
   color: var(--term-color);
   opacity: 0.9;
   margin-top: 0.2rem;
+}
+
+/* -----------------------------------------------------------------------------
+   QUEST & FACTION CUTOFF MATRIX (COLLAPSIBLE DRAWER)
+   ----------------------------------------------------------------------------- */
+.cutoff-card {
+  border: 2px solid var(--term-border);
+  box-shadow: var(--term-border-glow);
+}
+
+.cutoff-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.cutoff-summary {
+  cursor: pointer;
+  padding: 0.4rem 0.6rem;
+  background: var(--term-bg-subtle);
+  border: 1px solid var(--term-border-dim);
+  font-weight: bold;
+  color: var(--term-color-bright);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+  list-style: none;
+}
+
+.cutoff-summary::-webkit-details-marker {
+  display: none;
+}
+
+.cutoff-summary::after {
+  content: "[ ▲ COLLAPSE ]";
+  font-size: 0.75rem;
+  color: var(--term-color-dim);
+}
+
+details:not([open]) .cutoff-summary::after {
+  content: "[ ▼ EXPAND CUTOFF LOGS ]";
+}
+
+.cutoff-matrix-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+.cutoff-entry {
+  background: var(--term-bg-subtle);
+  border-left: 3px solid var(--term-border-dim);
+  border-top: 1px solid var(--term-border-dim);
+  border-right: 1px solid var(--term-border-dim);
+  border-bottom: 1px solid var(--term-border-dim);
+  padding: 0.75rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.cutoff-entry.danger {
+  border-left-color: #ff4444;
+}
+
+.cutoff-entry.warning {
+  border-left-color: #ffb642;
+}
+
+.cutoff-entry.safe {
+  border-left-color: #18ff62;
+}
+
+.cutoff-entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.cutoff-quest-title {
+  font-weight: bold;
+  color: var(--term-color-bright);
+  font-size: 0.95rem;
+}
+
+.cutoff-badge {
+  font-size: 0.7rem;
+  font-weight: bold;
+  padding: 1px 6px;
+  border: 1px solid currentColor;
+}
+
+.cutoff-badge.badge-danger {
+  color: #ff4444;
+  background: rgba(255, 68, 68, 0.12);
+}
+
+.cutoff-badge.badge-warning {
+  color: #ffb642;
+  background: rgba(255, 182, 66, 0.12);
+}
+
+.cutoff-badge.badge-safe {
+  color: #18ff62;
+  background: rgba(24, 255, 98, 0.12);
+}
+
+.cutoff-desc {
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--term-color);
+}
+
+.cutoff-rule {
+  font-size: 0.78rem;
+  color: var(--term-color-bright);
+  background: var(--term-bg);
+  border: 1px dashed var(--term-border-dim);
+  padding: 0.3rem 0.5rem;
 }
 
 /* -----------------------------------------------------------------------------
@@ -957,6 +1159,21 @@ select:focus {
   padding-top: 0.35rem;
   flex-wrap: wrap;
   gap: 0.5rem;
+  align-items: center;
+}
+
+.reset-link {
+  color: var(--term-color-dim);
+  background: transparent;
+  border: none;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.reset-link:hover {
+  color: var(--term-color-bright);
 }
 
 /* =============================================================================
@@ -1046,6 +1263,10 @@ select:focus {
   .quick-stats-box .stat-row {
     min-width: 100%;
   }
+  
+  .cutoff-matrix-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* =============================================================================
@@ -1062,18 +1283,19 @@ select:focus {
     display: none !important;
   }
   
-  .terminal-header, .robco-card, .target-item, .perk-step, .directive-card {
+  .terminal-header, .robco-card, .target-item, .perk-step, .directive-card, .cutoff-entry {
     border: 1px solid #333 !important;
     background: #fff !important;
     color: #000 !important;
     box-shadow: none !important;
   }
   
-  .card-title, .subject-name, .special-letter, .perk-name, .directive-name, .robco-tag {
+  .card-title, .subject-name, .special-letter, .perk-name, .directive-name, .robco-tag, .cutoff-quest-title {
     color: #000 !important;
   }
   
-  .special-pip.filled, .tag-badge, .progress-fill {
+  .special-pip.filled, .tag-badge, .progress-fill, .term-checkbox.checked {
     background: #333 !important;
+    color: #fff !important;
   }
 }

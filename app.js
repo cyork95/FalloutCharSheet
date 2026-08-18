@@ -1,6 +1,6 @@
 /* =============================================================================
    ROBCO UNIFIED OPERATING SYSTEM // TERMLINK JAVASCRIPT ENGINE
-   Interactive Character Dossiers & Sound Synthesizer
+   Interactive Character Dossiers, Checkbox Progress Tracker, Cutoff Matrix & Audio
    ============================================================================= */
 
 // --- 1. DOSSIER DATABASE ---
@@ -9,6 +9,7 @@ const DOSSIER_DATA = {
     id: "nate",
     recordId: "FO4-EXP-088194",
     name: "Commander Nate",
+    defaultTheme: "theme-green",
     modTitle: "Fallout 4: LoreOut / You Are Exceptional",
     archetype: "Field Commander / Militia General",
     avatarIcon: "🎖️",
@@ -66,6 +67,36 @@ const DOSSIER_DATA = {
         title: "Pre-War Composure",
         text: "Strict refusal of unprescribed street chems (Jet, Psycho). Rely solely on field-grade rations, clean water, triage stimpaks, and disciplined tactical drills."
       }
+    ],
+    cutoffs: [
+      {
+        title: "The Minutemen Sovereignty Path",
+        type: "safe",
+        badge: "RECOMMENDED SAFE PATH",
+        desc: "Build at least 8 allied settlements. Infiltrate the Institute, obtain the network holotape, then complete 'The Nuclear Option' exclusively through the Minutemen to preserve BoS and Railroad simultaneously.",
+        rule: "CRITICAL: Build the Signal Interceptor with the Minutemen (or give the Network Scanner holotape to Sturges)."
+      },
+      {
+        title: "Institute: 'Mass Fusion'",
+        type: "danger",
+        badge: "POINT OF NO RETURN",
+        desc: "Stepping into the Institute relay room to teleport to Mass Fusion permanently makes the Brotherhood of Steel a permanent hostile enemy.",
+        rule: "STOPPING POINT: Do not board the relay. Inform Brotherhood Proctor Ingram instead if you wish to trigger 'Spoils of War', or ignore entirely."
+      },
+      {
+        title: "Brotherhood of Steel: 'Tactical Thinking'",
+        type: "danger",
+        badge: "POINT OF NO RETURN",
+        desc: "Speaking to Captain Kells after completing 'Blind Betrayal' automatically begins 'Tactical Thinking' and permanently turns the Railroad hostile.",
+        rule: "STOPPING POINT: Complete 'Blind Betrayal' to save Paladin Danse, then NEVER speak to Captain Kells again."
+      },
+      {
+        title: "Railroad: 'Underground Undercover'",
+        type: "warning",
+        badge: "DIVERGENCE CUTOFF",
+        desc: "Progress up to the objective 'Continue working with Father'. Do not finish Institute questline. Get banished from the Institute (e.g. kill a named scientist or tell Father off at Bunker Hill) to trigger 'Burning Cover' -> 'Defend the Castle'.",
+        rule: "OUTCOME: Unlocks Vertibird Signal Grenades (Minutemen/BoS), Ballistic Weave (Railroad), and all companion perks."
+      }
     ]
   },
 
@@ -73,6 +104,7 @@ const DOSSIER_DATA = {
     id: "reeve",
     recordId: "TTW-JS-101783",
     name: "Reeve Sawyer",
+    defaultTheme: "theme-amber",
     modTitle: "Tale of Two Wastelands: Best of Both Worlds / JSawyer",
     archetype: "Naive Vault Expatriate / Aspiring White-Hat Lawman",
     avatarIcon: "🤠",
@@ -129,6 +161,36 @@ const DOSSIER_DATA = {
       {
         title: "Diplomat's Swagger",
         text: "Always attempt to flirt, charm, de-escalate, or bluff through tense confrontations before drawing a sidearm."
+      }
+    ],
+    cutoffs: [
+      {
+        title: "Capital Wasteland: 'The Power of the Atom'",
+        type: "safe",
+        badge: "EARLY MORAL MILESTONE",
+        desc: "Reach Explosives 30 (or use Mentats) to defuse the Megaton Atomic Bomb before engaging Mr. Burke. Secures the Megaton House and pure karma.",
+        rule: "CRITICAL: Refuse Burke's fusion pulse detonator and report him to Sheriff Lucas Simms."
+      },
+      {
+        title: "Mojave: 'Beware the Wrath of Caesar!'",
+        type: "danger",
+        badge: "FACTION INFAMY CUTOFF",
+        desc: "Upon stepping out of the Tops Casino, Caesar grants a one-time clean slate. Assisting the NCR, Mr. House, or Yes Man past key thresholds triggers permanent Legion assassins.",
+        rule: "STOPPING POINT: Caesar's favor fails after completing 3 anti-Legion objectives. Prepare for Legion hit squads."
+      },
+      {
+        title: "Mojave: 'Don't Tread on the Bear!'",
+        type: "danger",
+        badge: "NCR CUTOFF POINT",
+        desc: "Working with Mr. House past 'The House Always Wins IV' or Yes Man past 'Wild Card: Side Bets' permanently fails all NCR main questlines.",
+        rule: "STOPPING POINT: Ambassador Crocker will issue a final warning. Stop main faction quests if keeping NCR open."
+      },
+      {
+        title: "Brotherhood Truce: 'For the Republic, Part 2'",
+        type: "warning",
+        badge: "DIPLOMACY TARGET",
+        desc: "Mr. House strictly demands destroying the Hidden Valley BoS bunker. An NCR-aligned white-hat lawman can negotiate an official BoS-NCR Truce via Elder McNamara.",
+        rule: "DIPLOMATIC PATH: Keep McNamara in power (do not help Hardin) to sign the peace treaty with Colonel Moore."
       }
     ]
   }
@@ -207,12 +269,19 @@ function toggleCRT() {
 function changeTheme(themeClass) {
   document.body.classList.remove("theme-green", "theme-amber", "theme-cyan", "theme-red");
   document.body.classList.add(themeClass);
-  playBeepOk();
+  const sel = document.getElementById("theme-select");
+  if (sel && sel.value !== themeClass) {
+    sel.value = themeClass;
+  }
 }
 
-// --- 4. PERK PROGRESS TRACKER (LOCALSTORAGE) ---
+// --- 4. LOCALSTORAGE PROGRESS TRACKER (PERKS & MILESTONES) ---
 function getPerkStorageKey(charId, perkIndex) {
   return `robco_perk_${charId}_${perkIndex}`;
+}
+
+function getTargetStorageKey(charId, targetIndex) {
+  return `robco_target_${charId}_${targetIndex}`;
 }
 
 function togglePerk(charId, perkIndex) {
@@ -223,15 +292,57 @@ function togglePerk(charId, perkIndex) {
   
   const stepElem = document.getElementById(`perk-step-${charId}-${perkIndex}`);
   const statusElem = document.getElementById(`perk-status-${charId}-${perkIndex}`);
-  if (stepElem && statusElem) {
+  const checkboxElem = document.getElementById(`perk-chk-${charId}-${perkIndex}`);
+  
+  if (stepElem && statusElem && checkboxElem) {
     if (!current) {
       stepElem.classList.add("completed");
-      statusElem.textContent = "[STATUS: ACQUIRED]";
+      statusElem.textContent = "[ACQUIRED]";
+      checkboxElem.classList.add("checked");
+      checkboxElem.textContent = "X";
     } else {
       stepElem.classList.remove("completed");
-      statusElem.textContent = "[STATUS: PLANNED]";
+      statusElem.textContent = "[PLANNED]";
+      checkboxElem.classList.remove("checked");
+      checkboxElem.textContent = " ";
     }
   }
+}
+
+function toggleTarget(charId, targetIndex) {
+  const key = getTargetStorageKey(charId, targetIndex);
+  const current = localStorage.getItem(key) === "true";
+  localStorage.setItem(key, (!current).toString());
+  playTerminalTone(current ? 500 : 1450, 0.05, "sine");
+  
+  const itemElem = document.getElementById(`target-item-${charId}-${targetIndex}`);
+  const statusElem = document.getElementById(`target-goal-${charId}-${targetIndex}`);
+  const checkboxElem = document.getElementById(`target-chk-${charId}-${targetIndex}`);
+  
+  if (itemElem && statusElem && checkboxElem) {
+    if (!current) {
+      itemElem.classList.add("achieved");
+      statusElem.textContent = "ACHIEVED [30+]";
+      checkboxElem.classList.add("checked");
+      checkboxElem.textContent = "X";
+    } else {
+      itemElem.classList.remove("achieved");
+      statusElem.textContent = `TARGET: ${DOSSIER_DATA[charId].targets[targetIndex].goal}`;
+      checkboxElem.classList.remove("checked");
+      checkboxElem.textContent = " ";
+    }
+  }
+}
+
+function resetCharacterProgress(charId) {
+  if (!confirm(`Reset all tracked perks and skill milestones for ${DOSSIER_DATA[charId].name}?`)) {
+    return;
+  }
+  const data = DOSSIER_DATA[charId];
+  data.perks.forEach((_, idx) => localStorage.removeItem(getPerkStorageKey(charId, idx)));
+  data.targets.forEach((_, idx) => localStorage.removeItem(getTargetStorageKey(charId, idx)));
+  playTerminalTone(400, 0.1, "sawtooth");
+  renderDossier(charId);
 }
 
 // --- 5. RENDER DOSSIER VIEW ---
@@ -259,20 +370,27 @@ function renderDossier(charId) {
     `;
   }).join("");
 
-  // Build Tag Skills & Targets
+  // Build Tag Skills & Milestone Targets with Checkboxes
   const tagPills = data.tags.map(t => `<span class="tag-badge">★ TAGGED: ${t.toUpperCase()}</span>`).join("");
-  const targetItems = data.targets.map(tar => `
-    <div class="target-item">
-      <div class="target-header">
-        <span class="target-skill-name">${tar.skill}</span>
-        <span class="target-goal">TARGET: ${tar.goal}</span>
+  
+  const targetItems = data.targets.map((tar, idx) => {
+    const isAchieved = localStorage.getItem(getTargetStorageKey(charId, idx)) === "true";
+    return `
+      <div class="target-item ${isAchieved ? 'achieved' : ''}" id="target-item-${charId}-${idx}" onclick="toggleTarget('${charId}', ${idx})" title="Click to toggle milestone status">
+        <div class="target-header">
+          <div class="target-left-group">
+            <span class="term-checkbox ${isAchieved ? 'checked' : ''}" id="target-chk-${charId}-${idx}">${isAchieved ? 'X' : ' '}</span>
+            <span class="target-skill-name">${tar.skill}</span>
+          </div>
+          <span class="target-goal" id="target-goal-${charId}-${idx}">${isAchieved ? 'ACHIEVED [30+]' : `TARGET: ${tar.goal}`}</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" style="width: ${isAchieved ? '100%' : tar.pct + '%'}"></div>
+        </div>
+        <div class="target-rationale">${tar.note}</div>
       </div>
-      <div class="progress-track">
-        <div class="progress-fill" style="width: ${tar.pct}%"></div>
-      </div>
-      <div class="target-rationale">${tar.note}</div>
-    </div>
-  `).join("");
+    `;
+  }).join("");
 
   // Build Traits
   const traitsHtml = data.traits.map(tr => `
@@ -290,7 +408,7 @@ function renderDossier(charId) {
     <li class="loadout-item"><span style="color:var(--term-color-dim)">►</span> ${item}</li>
   `).join("");
 
-  // Build Perks Timeline
+  // Build Perks Timeline with interactive Checkboxes
   const perksHtml = data.perks.map((p, idx) => {
     const isAcquired = localStorage.getItem(getPerkStorageKey(charId, idx)) === "true";
     return `
@@ -303,9 +421,12 @@ function renderDossier(charId) {
         <div class="perk-info">
           <div class="perk-title-row">
             <span class="perk-name">${p.name}</span>
-            <span class="perk-status" id="perk-status-${charId}-${idx}">[STATUS: ${isAcquired ? 'ACQUIRED' : 'PLANNED'}]</span>
+            <span class="perk-status" id="perk-status-${charId}-${idx}">${isAcquired ? '[ACQUIRED]' : '[PLANNED]'}</span>
           </div>
           <div class="perk-detail">${p.detail}</div>
+        </div>
+        <div>
+          <span class="term-checkbox ${isAcquired ? 'checked' : ''}" id="perk-chk-${charId}-${idx}">${isAcquired ? 'X' : ' '}</span>
         </div>
       </div>
     `;
@@ -316,6 +437,18 @@ function renderDossier(charId) {
     <div class="directive-card">
       <div class="directive-name">${dir.title}</div>
       <div class="directive-text">${dir.text}</div>
+    </div>
+  `).join("");
+
+  // Build Quest & Faction Cutoff Entries
+  const cutoffsHtml = data.cutoffs.map(co => `
+    <div class="cutoff-entry ${co.type}">
+      <div class="cutoff-entry-header">
+        <span class="cutoff-quest-title">${co.title}</span>
+        <span class="cutoff-badge badge-${co.type}">[${co.badge}]</span>
+      </div>
+      <div class="cutoff-desc">${co.desc}</div>
+      <div class="cutoff-rule">${co.rule}</div>
     </div>
   `).join("");
 
@@ -381,11 +514,11 @@ function renderDossier(charId) {
         </div>
       </section>
 
-      <!-- TAG SKILLS & MILESTONES -->
+      <!-- TAG SKILLS & MILESTONES WITH CHECKBOXES -->
       <section class="robco-card col-5" aria-labelledby="sec-skills">
         <div class="card-title">
-          <span id="sec-skills">TAG SKILLS & PRIORITY MILESTONES</span>
-          <span class="card-tag">TACTICAL TARGETS</span>
+          <span id="sec-skills">TAG SKILLS & MILESTONE TRACKER</span>
+          <span class="card-tag">CLICK TO CHECK OFF</span>
         </div>
         <div class="tags-container">
           <div class="tagged-skill-pills">
@@ -419,15 +552,31 @@ function renderDossier(charId) {
         </div>
       </section>
 
-      <!-- PERK BLUEPRINT (LVL 1 - 10) -->
+      <!-- PERK BLUEPRINT WITH INTERACTIVE CHECKBOXES -->
       <section class="robco-card col-8" aria-labelledby="sec-perks">
         <div class="card-title">
           <span id="sec-perks">PERK PROGRESSION BLUEPRINT (LEVELS 1–10)</span>
-          <span class="card-tag">INTERACTIVE TRACKER (CLICK TO MARK)</span>
+          <span class="card-tag">LIVE LOCALSTORAGE TRACKER</span>
         </div>
         <div class="perk-timeline">
           ${perksHtml}
         </div>
+      </section>
+
+      <!-- QUEST & FACTION CUTOFF MATRIX (COLLAPSIBLE DRAWER) -->
+      <section class="robco-card col-12 cutoff-card" aria-labelledby="sec-cutoffs">
+        <div class="card-title">
+          <span id="sec-cutoffs">QUEST & FACTION CUTOFF MATRIX // CRITICAL STORY THRESHOLDS</span>
+          <span class="card-tag">STORY INTELLIGENCE</span>
+        </div>
+        <details class="cutoff-details" open>
+          <summary class="cutoff-summary">
+            <span>TERMINAL ARCHIVE // FACTION CONFLICT & POINT-OF-NO-RETURN SAFEGUARDS</span>
+          </summary>
+          <div class="cutoff-matrix-grid">
+            ${cutoffsHtml}
+          </div>
+        </details>
       </section>
 
       <!-- ROLEPLAY DIRECTIVES & MORAL COMPASS -->
@@ -451,7 +600,7 @@ function renderDossier(charId) {
   }
 }
 
-// --- 6. SWITCH CHARACTER TAB ---
+// --- 6. SWITCH CHARACTER TAB (WITH AUTO DYNAMIC AMBER / GREEN THEME) ---
 function switchCharacter(charId) {
   if (charId === activeCharId) {
     playKeyClick();
@@ -459,6 +608,10 @@ function switchCharacter(charId) {
   }
   activeCharId = charId;
   
+  // Auto switch phosphor theme based on character context
+  const targetTheme = DOSSIER_DATA[charId].defaultTheme;
+  changeTheme(targetTheme);
+
   // Update Tab active states
   const btnNate = document.getElementById("tab-nate");
   const btnReeve = document.getElementById("tab-reeve");
@@ -484,7 +637,6 @@ function updateClock() {
   const clockElem = document.getElementById("terminal-clock");
   if (!clockElem) return;
   const now = new Date();
-  // Format with a retro Fallout lore year offset (e.g. 2287) or accurate time string
   const year = 2287;
   const month = String(now.getMonth() + 1).padStart(2, '0');
   const day = String(now.getDate()).padStart(2, '0');
@@ -502,7 +654,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Add click sound listeners to interactive elements
   document.addEventListener("click", (e) => {
-    if (e.target.closest("button") || e.target.closest("select") || e.target.closest(".perk-step")) {
+    if (e.target.closest("button") || e.target.closest("select") || e.target.closest(".perk-step") || e.target.closest(".target-item") || e.target.closest("summary")) {
       initAudio();
     }
   });
