@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ROBCO TERMLINK // PERSONNEL ARCHIVES</title>
+  <meta name="description" content="RobCo Unified Operating System Personnel Archive & Character Dossiers for Fallout Playthroughs">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="crt-enabled theme-green">
+  <!-- CRT Screen Overlay FX -->
+  <div class="crt-overlay" aria-hidden="true">
+    <div class="scanlines"></div>
+    <div class="crt-glow"></div>
+    <div class="vignette"></div>
+    <div class="flicker-layer"></div>
+  </div>
+
+  <div class="terminal-wrapper">
+    <!-- Top System Bar -->
+    <header class="terminal-header">
+      <div class="header-top-row">
+        <div class="brand-block">
+          <span class="robco-tag">ROBCO INDUSTRIES (TM)</span>
+          <span class="os-version">TERMLINK PROTOCOL V7.1.04-EST</span>
+        </div>
+        <div class="system-diagnostics">
+          <span class="diag-item"><span class="indicator blink"></span> SYS_ACTIVE</span>
+          <span class="diag-item mem-val">MEM: 64KB OK</span>
+          <span class="diag-item" id="terminal-clock">2287-10-23 09:42:15</span>
+        </div>
+      </div>
+
+      <div class="terminal-title-banner">
+        <pre class="ascii-logo">
+========================================================================================
+  _____   ____  ____   _____ ____    _    _  ____   _____ 
+ |  __ \ / __ \|  _ \ / ____/ __ \  | |  | |/ __ \ / ____|
+ | |__) | |  | | |_) | |   | |  | | | |  | | |  | | (___  
+ |  _  /| |  | |  _ <| |   | |  | | | |  | | |  | |\___ \ 
+ | | \ \| |__| | |_) | |___| |__| | | |__| | |__| |____) |
+ |_|  \_\\____/|____/ \_____\____/   \____/ \____/|_____/ 
+   >> CLASSIFIED RECONNAISSANCE & PERSONNEL ARCHIVES // RESTRICTED ACCESS <<
+========================================================================================</pre>
+      </div>
+
+      <!-- Control Toolbar: Color Theme, CRT FX, Audio FX, Export -->
+      <div class="terminal-toolbar">
+        <div class="nav-tabs" role="tablist" aria-label="Character Selection">
+          <button class="tab-btn active" id="tab-nate" role="tab" aria-selected="true" aria-controls="dossier-nate" onclick="switchCharacter('nate')">
+            <span class="tab-index">[01]</span>
+            <span class="tab-label">CMDR. NATE</span>
+            <span class="tab-sub">FO4: YAE / LOREOUT</span>
+          </button>
+          <button class="tab-btn" id="tab-reeve" role="tab" aria-selected="false" aria-controls="dossier-reeve" onclick="switchCharacter('reeve')">
+            <span class="tab-index">[02]</span>
+            <span class="tab-label">REEVE SAWYER</span>
+            <span class="tab-sub">TTW: JSAWYER / BOTW</span>
+          </button>
+        </div>
+
+        <div class="quick-controls">
+          <div class="theme-selector">
+            <label for="theme-select" class="ctrl-label">PHOSPHOR:</label>
+            <select id="theme-select" onchange="changeTheme(this.value)">
+              <option value="theme-green" selected>P31 GREEN</option>
+              <option value="theme-amber">P13 AMBER</option>
+              <option value="theme-cyan">P4 WHITE/CYAN</option>
+              <option value="theme-red">RESTRICTED RED</option>
+            </select>
+          </div>
+
+          <button class="ctrl-btn" id="btn-crt" onclick="toggleCRT()" title="Toggle Scanlines and CRT Curvature">
+            <span class="ctrl-icon">📺</span> <span class="ctrl-text">CRT FX: ON</span>
+          </button>
+
+          <button class="ctrl-btn" id="btn-sound" onclick="toggleAudio()" title="Toggle Retro Mechanical Beeps">
+            <span class="ctrl-icon">🔊</span> <span class="ctrl-text">AUDIO: ON</span>
+          </button>
+
+          <button class="ctrl-btn" id="btn-print" onclick="window.print()" title="Print / Export Dossier">
+            <span class="ctrl-icon">🖨️</span> <span class="ctrl-text">PRINT ARCHIVE</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Dossier Content Container -->
+    <main class="terminal-main" id="dossier-content">
+      <!-- Dynamic Dossier Views will be injected and controlled via JS -->
+    </main>
+
+    <!-- Interactive Holotape Log / Terminal Prompt Console -->
+    <footer class="terminal-footer">
+      <div class="terminal-prompt-bar">
+        <span class="prompt-prefix">ROBCO-UOS:\ARCHIVES\DOSSIER&gt;</span>
+        <span class="prompt-cmd" id="terminal-status-msg">RECORD MOUNTED: FO4-EXP-088194. INTEGRITY CHECK 100% OK.</span>
+        <span class="cursor">█</span>
+      </div>
+      <div class="footer-meta">
+        <span>SECURITY CLEARANCE: OVERSEER / E-9 GENERAL STAFF</span>
+        <span>COPYRIGHT 2077 ROBCO INDUSTRIES ALL RIGHTS RESERVED</span>
+      </div>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
