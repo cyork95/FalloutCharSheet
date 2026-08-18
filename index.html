@@ -1082,6 +1082,150 @@ details:not([open]) .cutoff-summary::after {
   padding: 0.3rem 0.5rem;
 }
 
+/* =============================================================================
+   QUEST COMPLETION & MISSION DEBRIEFS SECTION
+   ============================================================================= */
+.quests-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.quests-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 450px;
+  overflow-y: auto;
+  padding-right: 0.35rem;
+}
+
+.quest-card {
+  background: var(--term-bg-subtle);
+  border-left: 3px solid var(--term-border);
+  border-top: 1px solid var(--term-border-dim);
+  border-right: 1px solid var(--term-border-dim);
+  border-bottom: 1px solid var(--term-border-dim);
+  padding: 0.75rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  transition: all 0.2s ease;
+}
+
+.quest-card:hover {
+  background: var(--term-bg-highlight);
+  border-color: var(--term-border);
+}
+
+.quest-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.quest-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.quest-name {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--term-color-bright);
+}
+
+.quest-faction-tag {
+  font-size: 0.72rem;
+  background: var(--term-bg);
+  border: 1px solid var(--term-border-dim);
+  padding: 1px 6px;
+  color: var(--term-color);
+}
+
+.quest-status-badge {
+  font-size: 0.72rem;
+  font-weight: bold;
+  border: 1px solid currentColor;
+  padding: 1px 6px;
+}
+
+.quest-status-badge.status-completed {
+  color: var(--term-color-bright);
+  background: var(--term-bg-highlight);
+}
+
+.quest-status-badge.status-in-progress {
+  color: #ffb642;
+  background: rgba(255, 182, 66, 0.15);
+}
+
+.quest-status-badge.status-failed {
+  color: #ff4444;
+  background: rgba(255, 68, 68, 0.15);
+}
+
+.quest-notes-block {
+  font-size: 0.83rem;
+  line-height: 1.45;
+  color: var(--term-color);
+  background: rgba(0, 0, 0, 0.25);
+  border-left: 2px solid var(--term-border-dim);
+  padding: 0.35rem 0.6rem;
+}
+
+.quest-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.72rem;
+  color: var(--term-color-dim);
+  border-top: 1px dashed var(--term-border-dim);
+  padding-top: 0.3rem;
+}
+
+.quest-del-btn {
+  background: transparent;
+  border: 1px solid var(--term-border-dim);
+  color: #ff6b6b;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  cursor: pointer;
+  padding: 1px 6px;
+}
+
+.quest-del-btn:hover {
+  background: #ff4444;
+  color: #fff;
+  border-color: #ff4444;
+}
+
+/* Quest Add Form */
+.quest-add-box {
+  background: var(--term-bg-subtle);
+  border: 1px dashed var(--term-border);
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.quest-form-grid {
+  display: grid;
+  grid-template-columns: 2fr 1.2fr 1fr;
+  gap: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .quest-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Directives */
 .directives-grid {
   display: grid;
@@ -1177,7 +1321,7 @@ details:not([open]) .cutoff-summary::after {
   padding-top: 0.65rem;
 }
 
-.term-input, .term-textarea {
+.term-input, .term-textarea, .term-select {
   background: var(--term-bg);
   border: 1px solid var(--term-border-dim);
   color: var(--term-color-bright);
@@ -1188,7 +1332,7 @@ details:not([open]) .cutoff-summary::after {
   width: 100%;
 }
 
-.term-input:focus, .term-textarea:focus {
+.term-input:focus, .term-textarea:focus, .term-select:focus {
   border-color: var(--term-color);
   box-shadow: 0 0 6px var(--term-color);
 }
@@ -1215,7 +1359,7 @@ details:not([open]) .cutoff-summary::after {
   font-size: 0.85rem;
 }
 
-.loadout-del-btn, .directive-del-btn {
+.loadout-del-btn {
   background: transparent;
   border: 1px solid var(--term-border-dim);
   color: #ff6b6b;
@@ -1412,11 +1556,11 @@ details:not([open]) .cutoff-summary::after {
 /* Print */
 @media print {
   body { background: #fff !important; color: #000 !important; text-shadow: none !important; }
-  .crt-overlay, .terminal-toolbar, .terminal-prompt-bar, .footer-utility-row, .journal-add-form { display: none !important; }
-  .terminal-header, .robco-card, .target-item, .perk-step, .directive-card, .cutoff-entry, .journal-entry {
+  .crt-overlay, .terminal-toolbar, .terminal-prompt-bar, .footer-utility-row, .journal-add-form, .quest-add-box { display: none !important; }
+  .terminal-header, .robco-card, .target-item, .perk-step, .directive-card, .cutoff-entry, .journal-entry, .quest-card {
     border: 1px solid #333 !important; background: #fff !important; color: #000 !important; box-shadow: none !important;
   }
-  .card-title, .subject-name, .special-letter, .perk-name, .directive-name, .robco-tag, .cutoff-quest-title { color: #000 !important; }
+  .card-title, .subject-name, .special-letter, .perk-name, .directive-name, .robco-tag, .cutoff-quest-title, .quest-name { color: #000 !important; }
   .special-pip.filled, .tag-badge, .progress-fill, .term-checkbox.checked { background: #333 !important; color: #fff !important; }
 }
   </style>
@@ -1436,7 +1580,7 @@ details:not([open]) .cutoff-summary::after {
       <div class="header-top-row">
         <div class="brand-block">
           <span class="robco-tag">ROBCO INDUSTRIES (TM)</span>
-          <span class="os-version">TERMLINK PROTOCOL V7.2.0-EDIT</span>
+          <span class="os-version">TERMLINK PROTOCOL V7.3.0-QUESTS</span>
         </div>
         <div class="system-diagnostics">
           <button class="ctrl-btn" id="btn-edit-mode" onclick="toggleEditMode()" title="Toggle Read-Only vs In-Browser Live Edit Mode">
@@ -1562,7 +1706,7 @@ details:not([open]) .cutoff-summary::after {
   <script>
 /* =============================================================================
    ROBCO UNIFIED OPERATING SYSTEM // TERMLINK JAVASCRIPT ENGINE
-   Full LocalStorage Persistence, Edit Mode, Field Journal & JSON Backup
+   Full LocalStorage Persistence, Edit Mode, Quest Completion Log & JSON Backup
    ============================================================================= */
 
 // --- 1. FACTORY GENESIS BASELINES ---
@@ -1661,6 +1805,24 @@ const GENESIS_BASELINES = {
         rule: "OUTCOME: Unlocks Vertibird Signal Grenades (Minutemen/BoS), Ballistic Weave (Railroad), and all companion perks."
       }
     ],
+    completedQuests: [
+      {
+        id: "quest-nate-1",
+        name: "Out of Time",
+        faction: "Main Story / Sanctuary",
+        status: "COMPLETED",
+        date: "2287-10-23",
+        notes: "Escaped Cryo-stasis in Vault 111. Returned to Sanctuary Hills and spoke with Codsworth. Secured the perimeter and confirmed Shaun's abduction."
+      },
+      {
+        id: "quest-nate-2",
+        name: "When Freedom Calls",
+        faction: "Minutemen",
+        status: "COMPLETED",
+        date: "2287-10-24",
+        notes: "Rescued Preston Garvey and Concord settlers from raiders and Deathclaw. Successfully escorted them back to Sanctuary Hills. Agreed to take command of the Minutemen."
+      }
+    ],
     fieldLogs: [
       { id: "log-1", timestamp: "2287-10-23 10:15", text: "Vault 111 exit confirmed. Sanctuary Hills secured. Codsworth reports 210 years elapsed." },
       { id: "log-2", timestamp: "2287-10-24 16:40", text: "Concord Museum of Freedom evacuated. Preston Garvey and settlers escorted back to Sanctuary." }
@@ -1724,7 +1886,7 @@ const GENESIS_BASELINES = {
       },
       {
         title: "Saloon Habit",
-        text: "Indulge freely in cold Sunset标志 Sarsaparilla, whiskey, beer, and tobacco at wasteland saloons to process the trauma of wasteland combat."
+        text: "Indulge freely in cold Sunset Sarsaparilla, whiskey, beer, and tobacco at wasteland saloons to process the trauma of wasteland combat."
       },
       {
         title: "Diplomat's Swagger",
@@ -1759,6 +1921,24 @@ const GENESIS_BASELINES = {
         badge: "DIPLOMACY TARGET",
         desc: "Mr. House strictly demands destroying the Hidden Valley BoS bunker. An NCR-aligned white-hat lawman can negotiate an official BoS-NCR Truce via Elder McNamara.",
         rule: "DIPLOMATIC PATH: Keep McNamara in power (do not help Hardin) to sign the peace treaty with Colonel Moore."
+      }
+    ],
+    completedQuests: [
+      {
+        id: "quest-reeve-1",
+        name: "Escape!",
+        faction: "Vault 101",
+        status: "COMPLETED",
+        date: "2277-08-17",
+        notes: "Escaped Vault 101 with Amata's help after Jonas was killed by the Overseer's guards. Exiled into the Capital Wasteland."
+      },
+      {
+        id: "quest-reeve-2",
+        name: "The Power of the Atom",
+        faction: "Megaton",
+        status: "COMPLETED",
+        date: "2277-08-19",
+        notes: "Used Explosives 30 skill to safely disarm the undetonated atomic bomb in Megaton crater. Refused Mr. Burke's bribe and was rewarded with keys to the local house by Sheriff Simms."
       }
     ],
     fieldLogs: [
@@ -1962,6 +2142,55 @@ function deleteLoadoutItem(idx) {
   renderDossier(activeCharId);
 }
 
+// --- QUEST COMPLETION MANAGEMENT ---
+function addCompletedQuest() {
+  const nameInput = document.getElementById("quest-input-name");
+  const factionInput = document.getElementById("quest-input-faction");
+  const statusSelect = document.getElementById("quest-input-status");
+  const notesInput = document.getElementById("quest-input-notes");
+
+  if (!nameInput || !nameInput.value.trim()) {
+    alert("Please specify a Quest Name to record debrief.");
+    return;
+  }
+
+  const data = loadCharacter(activeCharId);
+  if (!data.completedQuests) data.completedQuests = [];
+
+  const now = new Date();
+  const year = activeCharId === "nate" ? 2287 : 2277;
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const dateStr = `${year}-${month}-${day}`;
+
+  data.completedQuests.unshift({
+    id: "quest-" + Date.now(),
+    name: nameInput.value.trim(),
+    faction: (factionInput && factionInput.value.trim()) ? factionInput.value.trim() : "Wasteland General",
+    status: statusSelect ? statusSelect.value : "COMPLETED",
+    date: dateStr,
+    notes: (notesInput && notesInput.value.trim()) ? notesInput.value.trim() : "Mission objectives completed. No additional remarks recorded."
+  });
+
+  saveCharacter(activeCharId, data);
+  playBeepOk();
+  updatePromptMessage(`QUEST DEBRIEF RECORDED: "${nameInput.value.trim().toUpperCase()}".`);
+  renderDossier(activeCharId);
+}
+
+function deleteCompletedQuest(idx) {
+  const data = loadCharacter(activeCharId);
+  if (data.completedQuests && data.completedQuests[idx]) {
+    const qName = data.completedQuests[idx].name;
+    data.completedQuests.splice(idx, 1);
+    saveCharacter(activeCharId, data);
+    playTerminalTone(500, 0.05, "sawtooth");
+    updatePromptMessage(`QUEST ENTRY PURGED: "${qName}".`);
+    renderDossier(activeCharId);
+  }
+}
+
+// --- FIELD JOURNAL MANAGEMENT ---
 function addFieldLog() {
   const input = document.getElementById("new-log-input");
   if (!input || !input.value.trim()) return;
@@ -1969,7 +2198,7 @@ function addFieldLog() {
   if (!data.fieldLogs) data.fieldLogs = [];
   
   const now = new Date();
-  const year = 2287;
+  const year = activeCharId === "nate" ? 2287 : 2277;
   const month = String(now.getMonth() + 1).padStart(2, '0');
   const day = String(now.getDate()).padStart(2, '0');
   const hours = String(now.getHours()).padStart(2, '0');
@@ -2202,6 +2431,31 @@ function renderDossier(charId) {
     </div>
   `).join("");
 
+  // Build Completed Quests List
+  const completedQuests = data.completedQuests || [];
+  const questsHtml = completedQuests.map((q, idx) => {
+    const statusClass = q.status === "COMPLETED" ? "status-completed" : (q.status === "IN PROGRESS" ? "status-in-progress" : "status-failed");
+    return `
+      <div class="quest-card">
+        <div class="quest-card-header">
+          <div class="quest-title-wrap">
+            <span class="quest-name">${q.name}</span>
+            <span class="quest-faction-tag">${q.faction || 'WASTELAND'}</span>
+            <span class="quest-status-badge ${statusClass}">[${q.status || 'COMPLETED'}]</span>
+          </div>
+          <button class="quest-del-btn" onclick="deleteCompletedQuest(${idx})" title="Purge quest record">PURGE</button>
+        </div>
+        <div class="quest-notes-block">
+          <strong>DEBRIEF / NOTES:</strong> ${q.notes}
+        </div>
+        <div class="quest-meta-row">
+          <span>COMPLETION TIMESTAMP: ${q.date || '2287-10-23'}</span>
+          <span>RECORD ID: Q-LOG-${idx + 1}</span>
+        </div>
+      </div>
+    `;
+  }).join("");
+
   // Build Field Logs / Journal
   const fieldLogsHtml = (data.fieldLogs || []).map((log, idx) => `
     <div class="journal-entry">
@@ -2255,8 +2509,8 @@ function renderDossier(charId) {
               </span>
             </div>
             <div class="stat-row">
-              <span class="stat-label">HEALTH STATUS:</span>
-              <span class="stat-value">OPTIMAL</span>
+              <span class="stat-label">QUESTS LOGGED:</span>
+              <span class="stat-value">${completedQuests.length} RECORDS</span>
             </div>
             <div class="stat-row">
               <span class="stat-label">RADIATION:</span>
@@ -2330,6 +2584,40 @@ function renderDossier(charId) {
         </div>
         <div class="perk-timeline">
           ${perksHtml}
+        </div>
+      </section>
+
+      <!-- QUEST COMPLETION & MISSION DEBRIEFS SECTION -->
+      <section class="robco-card col-12" aria-labelledby="sec-completed-quests">
+        <div class="card-title">
+          <span id="sec-completed-quests">QUEST COMPLETION & MISSION DEBRIEFS</span>
+          <span class="card-tag">FIELD LOGBOOK (${completedQuests.length} ENTRIES)</span>
+        </div>
+        <div class="quests-container">
+          <div class="quests-list">
+            ${completedQuests.length > 0 ? questsHtml : `<div style="font-size:0.85rem; color:var(--term-color-dim); padding:0.5rem 0;">No completed quest records filed yet. Enter your mission debrief below to record history.</div>`}
+          </div>
+
+          <!-- Add Quest Form -->
+          <div class="quest-add-box">
+            <div style="font-size:0.8rem; font-weight:bold; color:var(--term-color-bright); display:flex; justify-content:space-between;">
+              <span>+ RECORD COMPLETED QUEST / MISSION DEBRIEF</span>
+              <span style="color:var(--term-color-dim);">PIPBODY ARCHIVE LOG</span>
+            </div>
+            <div class="quest-form-grid">
+              <input type="text" id="quest-input-name" class="term-input" placeholder="Quest Title (e.g., The Nuclear Option / When Freedom Calls)...">
+              <input type="text" id="quest-input-faction" class="term-input" placeholder="Faction / Zone (e.g., Minutemen, NCR, Megaton)...">
+              <select id="quest-input-status" class="term-select">
+                <option value="COMPLETED" selected>COMPLETED</option>
+                <option value="IN PROGRESS">IN PROGRESS</option>
+                <option value="FAILED / ABANDONED">FAILED / ABANDONED</option>
+              </select>
+            </div>
+            <textarea id="quest-input-notes" class="term-textarea" style="height:65px;" placeholder="Mission Debrief & Roleplay Notes (moral choices made, key casualties, rewards, artillery usage, faction impact)..."></textarea>
+            <div style="display:flex; justify-content:flex-end;">
+              <button class="ctrl-btn" style="background:var(--term-color); color:#000; font-weight:bold;" onclick="addCompletedQuest()">+ COMMIT QUEST TO ARCHIVE</button>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -2422,7 +2710,7 @@ function updateClock() {
   const clockElem = document.getElementById("terminal-clock");
   if (!clockElem) return;
   const now = new Date();
-  const year = 2287;
+  const year = activeCharId === "nate" ? 2287 : 2277;
   const month = String(now.getMonth() + 1).padStart(2, '0');
   const day = String(now.getDate()).padStart(2, '0');
   const hours = String(now.getHours()).padStart(2, '0');
