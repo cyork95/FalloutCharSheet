@@ -16,10 +16,10 @@
    ============================================================================= */
 
 :root {
-  /* Default Green Phosphor Colors (FO4 / Commander Nate) */
+  /* Default Green Phosphor Colors (FO4 / Commander Nate - YAE Overhaul) */
   --term-bg: #070d08;
-  --term-bg-card: rgba(10, 24, 13, 0.90);
-  --term-bg-card-hover: rgba(14, 34, 18, 0.96);
+  --term-bg-card: rgba(10, 24, 13, 0.92);
+  --term-bg-card-hover: rgba(14, 34, 18, 0.98);
   --term-bg-subtle: rgba(24, 255, 98, 0.08);
   --term-bg-highlight: rgba(24, 255, 98, 0.18);
   
@@ -40,11 +40,11 @@
   --transition-speed: 0.25s;
 }
 
-/* New Vegas Amber Theme (TTW / Reeve Sawyer) */
+/* New Vegas Amber Theme (TTW / Reeve Sawyer - JSawyer) */
 body.theme-amber {
   --term-bg: #0d0a05;
-  --term-bg-card: rgba(28, 20, 8, 0.90);
-  --term-bg-card-hover: rgba(40, 28, 12, 0.96);
+  --term-bg-card: rgba(28, 20, 8, 0.92);
+  --term-bg-card-hover: rgba(40, 28, 12, 0.98);
   --term-bg-subtle: rgba(255, 182, 66, 0.08);
   --term-bg-highlight: rgba(255, 182, 66, 0.18);
   --term-color: #ffb642;
@@ -57,11 +57,11 @@ body.theme-amber {
   --term-text-glow: 0 0 5px rgba(255, 182, 66, 0.55);
 }
 
-/* Alternate Theme Presets */
+/* Alternate Themes */
 body.theme-cyan {
   --term-bg: #050d0f;
-  --term-bg-card: rgba(8, 24, 28, 0.90);
-  --term-bg-card-hover: rgba(12, 36, 42, 0.96);
+  --term-bg-card: rgba(8, 24, 28, 0.92);
+  --term-bg-card-hover: rgba(12, 36, 42, 0.98);
   --term-bg-subtle: rgba(56, 253, 253, 0.08);
   --term-bg-highlight: rgba(56, 253, 253, 0.18);
   --term-color: #38fdfd;
@@ -76,8 +76,8 @@ body.theme-cyan {
 
 body.theme-red {
   --term-bg: #110505;
-  --term-bg-card: rgba(30, 10, 10, 0.90);
-  --term-bg-card-hover: rgba(45, 14, 14, 0.96);
+  --term-bg-card: rgba(30, 10, 10, 0.92);
+  --term-bg-card-hover: rgba(45, 14, 14, 0.98);
   --term-bg-subtle: rgba(255, 68, 68, 0.08);
   --term-bg-highlight: rgba(255, 68, 68, 0.18);
   --term-color: #ff4444;
@@ -173,7 +173,7 @@ body.crt-enabled .crt-overlay {
 
 /* Terminal Wrapper */
 .terminal-wrapper {
-  max-width: 1360px;
+  max-width: 1380px;
   margin: 0 auto;
   padding: 1.25rem 1.5rem;
   display: flex;
@@ -195,7 +195,7 @@ body.crt-enabled .crt-overlay {
 }
 
 .terminal-header::before {
-  content: "■ TOP SECRET // ROBCO SECURITY SYSTEM ■";
+  content: "■ TOP SECRET // ROBCO UNIFIED OPERATING SYSTEM ■";
   position: absolute;
   top: -10px;
   left: 20px;
@@ -603,7 +603,7 @@ body.theme-amber .avatar-frame {
   gap: 0.4rem;
   border-left: 1px dashed var(--term-border-dim);
   padding-left: 1.25rem;
-  min-width: 200px;
+  min-width: 210px;
 }
 
 .stat-row {
@@ -690,135 +690,101 @@ body.theme-amber .special-pip {
   opacity: 0.9;
 }
 
-/* Tag Skills & Target Milestones */
-.tags-container {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+/* =============================================================================
+   FULL SKILLS OVERVIEW (YOU ARE EXCEPTIONAL / CLASSIC SKILL MATRIX)
+   ============================================================================= */
+.skills-matrix-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.65rem;
 }
 
-.tagged-skill-pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.tag-badge {
-  background: var(--term-color);
-  color: #000;
-  font-weight: bold;
-  padding: 0.25rem 0.65rem;
-  font-size: 0.85rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  box-shadow: 0 0 6px var(--term-color);
-}
-
-.targets-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.55rem;
-  margin-top: 0.25rem;
-}
-
-.target-item {
+.skill-matrix-item {
   background: var(--term-bg-subtle);
   border: 1px solid var(--term-border-dim);
-  padding: 0.55rem 0.75rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  padding: 0.45rem 0.65rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  transition: all 0.15s ease;
+  position: relative;
 }
 
-.target-item:hover {
+.skill-matrix-item:hover {
   background: var(--term-bg-highlight);
   border-color: var(--term-border);
 }
 
-.target-item.achieved {
-  border-color: var(--term-color-bright);
-  background: var(--term-bg-highlight);
+.skill-matrix-item.tagged {
+  border-color: var(--term-color);
+  border-left: 3px solid var(--term-color-bright);
 }
 
-.target-header {
+.skill-item-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.3rem;
 }
 
-.target-left-group {
+.skill-name-wrap {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
 }
 
-.target-skill-name {
+.skill-stat-gov {
+  font-size: 0.7rem;
+  background: var(--term-bg);
+  border: 1px solid var(--term-border-dim);
+  padding: 0 4px;
+  color: var(--term-color-dim);
+}
+
+.skill-title {
   font-weight: bold;
   color: var(--term-color-bright);
+  font-size: 0.88rem;
 }
 
-.target-goal {
-  font-size: 0.8rem;
-  color: var(--term-color);
-  border: 1px solid var(--term-border-dim);
-  padding: 1px 5px;
-  background: var(--term-bg);
+.skill-tag-pill {
+  font-size: 0.65rem;
+  background: var(--term-color);
+  color: #000;
+  font-weight: bold;
+  padding: 0 4px;
+  cursor: pointer;
 }
 
-.progress-track {
-  height: 7px;
+.skill-score-display {
+  font-weight: bold;
+  color: var(--term-color-bright);
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.skill-progress-bar {
+  height: 6px;
   width: 100%;
   background: rgba(24, 255, 98, 0.15);
   border: 1px solid var(--term-border-dim);
   overflow: hidden;
-  margin-bottom: 0.35rem;
 }
 
-body.theme-amber .progress-track {
+body.theme-amber .skill-progress-bar {
   background: rgba(255, 182, 66, 0.15);
 }
 
-.progress-fill {
+.skill-progress-fill {
   height: 100%;
   background: var(--term-color);
-  box-shadow: 0 0 6px var(--term-color);
-  transition: width 0.3s ease;
+  box-shadow: 0 0 4px var(--term-color);
+  transition: width 0.25s ease;
 }
 
-.target-item.achieved .progress-fill {
-  width: 100% !important;
+.skill-matrix-item.tagged .skill-progress-fill {
   background: var(--term-color-bright);
-}
-
-.target-rationale {
-  font-size: 0.78rem;
-  color: var(--term-color);
-  opacity: 0.88;
-}
-
-/* Retro Terminal Checkbox */
-.term-checkbox {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  background: var(--term-bg);
-  border: 1px solid var(--term-border);
-  font-size: 0.8rem;
-  font-weight: bold;
-  color: var(--term-color-bright);
-  user-select: none;
-  box-shadow: inset 0 0 4px var(--term-border-dim);
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.term-checkbox.checked {
-  background: var(--term-color);
-  color: #000;
-  box-shadow: 0 0 6px var(--term-color);
 }
 
 /* Traits & Loadout */
@@ -832,6 +798,7 @@ body.theme-amber .progress-track {
   border: 1px dashed var(--term-border-dim);
   padding: 0.6rem 0.75rem;
   background: var(--term-bg-subtle);
+  position: relative;
 }
 
 .trait-header {
@@ -840,6 +807,7 @@ body.theme-amber .progress-track {
   margin-bottom: 0.2rem;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .trait-type {
@@ -949,6 +917,13 @@ body.theme-amber .progress-track {
   opacity: 0.85;
 }
 
+.perk-req-tag {
+  font-size: 0.7rem;
+  color: var(--term-color);
+  border: 1px dashed var(--term-border-dim);
+  padding: 0 4px;
+}
+
 .perk-status {
   font-size: 0.72rem;
   color: var(--term-color-dim);
@@ -967,6 +942,30 @@ body.theme-amber .progress-track {
   color: var(--term-color);
   opacity: 0.9;
   margin-top: 0.2rem;
+}
+
+/* Retro Terminal Checkbox */
+.term-checkbox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  background: var(--term-bg);
+  border: 1px solid var(--term-border);
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: var(--term-color-bright);
+  user-select: none;
+  box-shadow: inset 0 0 4px var(--term-border-dim);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.term-checkbox.checked {
+  background: var(--term-color);
+  color: #000;
+  box-shadow: 0 0 6px var(--term-color);
 }
 
 /* Quest Cutoff Matrix */
@@ -1359,14 +1358,20 @@ details:not([open]) .cutoff-summary::after {
   font-size: 0.85rem;
 }
 
-.loadout-del-btn {
+.loadout-del-btn, .perk-del-btn, .trait-del-btn {
   background: transparent;
   border: 1px solid var(--term-border-dim);
   color: #ff6b6b;
   cursor: pointer;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   padding: 1px 6px;
-  margin-left: 0.5rem;
+  margin-left: 0.4rem;
+}
+
+.loadout-del-btn:hover, .perk-del-btn:hover, .trait-del-btn:hover {
+  background: #ff4444;
+  color: #fff;
+  border-color: #ff4444;
 }
 
 .btn-add-item {
@@ -1551,17 +1556,18 @@ details:not([open]) .cutoff-summary::after {
   .quick-stats-box { grid-column: span 1; flex-direction: column; }
   .quick-stats-box .stat-row { min-width: 100%; }
   .cutoff-matrix-grid { grid-template-columns: 1fr; }
+  .skills-matrix-grid { grid-template-columns: 1fr; }
 }
 
 /* Print */
 @media print {
   body { background: #fff !important; color: #000 !important; text-shadow: none !important; }
-  .crt-overlay, .terminal-toolbar, .terminal-prompt-bar, .footer-utility-row, .journal-add-form, .quest-add-box { display: none !important; }
-  .terminal-header, .robco-card, .target-item, .perk-step, .directive-card, .cutoff-entry, .journal-entry, .quest-card {
+  .crt-overlay, .terminal-toolbar, .terminal-prompt-bar, .footer-utility-row, .journal-add-form, .quest-add-box, .btn-add-item { display: none !important; }
+  .terminal-header, .robco-card, .skill-matrix-item, .perk-step, .directive-card, .cutoff-entry, .journal-entry, .quest-card {
     border: 1px solid #333 !important; background: #fff !important; color: #000 !important; box-shadow: none !important;
   }
   .card-title, .subject-name, .special-letter, .perk-name, .directive-name, .robco-tag, .cutoff-quest-title, .quest-name { color: #000 !important; }
-  .special-pip.filled, .tag-badge, .progress-fill, .term-checkbox.checked { background: #333 !important; color: #fff !important; }
+  .special-pip.filled, .tag-badge, .skill-progress-fill, .term-checkbox.checked { background: #333 !important; color: #fff !important; }
 }
   </style>
 </head>
@@ -1580,7 +1586,7 @@ details:not([open]) .cutoff-summary::after {
       <div class="header-top-row">
         <div class="brand-block">
           <span class="robco-tag">ROBCO INDUSTRIES (TM)</span>
-          <span class="os-version">TERMLINK PROTOCOL V7.3.0-QUESTS</span>
+          <span class="os-version">TERMLINK PROTOCOL V7.4.0-YAE</span>
         </div>
         <div class="system-diagnostics">
           <button class="ctrl-btn" id="btn-edit-mode" onclick="toggleEditMode()" title="Toggle Read-Only vs In-Browser Live Edit Mode">
@@ -1611,12 +1617,12 @@ details:not([open]) .cutoff-summary::after {
           <button class="tab-btn active" id="tab-nate" role="tab" aria-selected="true" aria-controls="dossier-nate" onclick="switchCharacter('nate')">
             <span class="tab-index">[01]</span>
             <span class="tab-label">CMDR. NATE</span>
-            <span class="tab-sub">FO4: YAE / LOREOUT</span>
+            <span class="tab-sub">FO4: YOU ARE EXCEPTIONAL</span>
           </button>
           <button class="tab-btn" id="tab-reeve" role="tab" aria-selected="false" aria-controls="dossier-reeve" onclick="switchCharacter('reeve')">
             <span class="tab-index">[02]</span>
             <span class="tab-label">REEVE SAWYER</span>
-            <span class="tab-sub">TTW: JSAWYER / BOTW</span>
+            <span class="tab-sub">TTW: JSAWYER OVERHAUL</span>
           </button>
         </div>
 
@@ -1706,17 +1712,17 @@ details:not([open]) .cutoff-summary::after {
   <script>
 /* =============================================================================
    ROBCO UNIFIED OPERATING SYSTEM // TERMLINK JAVASCRIPT ENGINE
-   Full LocalStorage Persistence, Edit Mode, Quest Completion Log & JSON Backup
+   Full LocalStorage Persistence, Edit Mode, YAE / Classic 13 Skills, Perks & Traits
    ============================================================================= */
 
 // --- 1. FACTORY GENESIS BASELINES ---
 const GENESIS_BASELINES = {
   nate: {
     id: "nate",
-    recordId: "FO4-EXP-088194",
+    recordId: "FO4-YAE-088194",
     name: "Commander Nate",
     defaultTheme: "theme-green",
-    modTitle: "Fallout 4: LoreOut / You Are Exceptional",
+    modTitle: "Fallout 4: LoreOut / You Are EXCEPTIONAL (Nexus #76739)",
     archetype: "Field Commander / Militia General",
     avatarIcon: "🎖️",
     badge: "MIL-GEN // V111",
@@ -1740,22 +1746,32 @@ const GENESIS_BASELINES = {
       A: { name: "Agility", score: 5, desc: "Tactical repositioning, combat stamina & low-profile rapid reloads." },
       L: { name: "Luck", score: 2, desc: "Deterministic tactical superiority prioritized over VATS critical RNG." }
     },
+    // Complete 13 Classic Skills (You Are EXCEPTIONAL system)
+    skills: {
+      barter: { name: "Barter", gov: "CHA", value: 24, tagged: false, note: "Prices and trade negotiation." },
+      energyWeapons: { name: "Energy Weapons", gov: "PER", value: 17, tagged: false, note: "Laser, plasma, and gamma weaponry." },
+      explosives: { name: "Explosives", gov: "PER", value: 22, tagged: false, note: "Grenades, mines & Minutemen artillery accuracy." },
+      guns: { name: "Guns", gov: "AGI", value: 35, tagged: true, note: "TAGGED: Service rifles, carbines, and combat sidearms." },
+      lockpick: { name: "Lockpick", gov: "PER", value: 22, tagged: false, note: "Infiltration of pre-war safes and security doors." },
+      medicine: { name: "Medicine", gov: "INT", value: 22, tagged: false, note: "IAF stimpak stabilization and combat triage." },
+      meleeWeapons: { name: "Melee Weapons", gov: "STR", value: 18, tagged: false, note: "Trench knives and close-quarters edges." },
+      repair: { name: "Repair", gov: "INT", value: 32, tagged: true, note: "TAGGED: ECO weapon modding and equipment servicing." },
+      science: { name: "Science", gov: "INT", value: 22, tagged: false, note: "Settlement power grids and high-tech defense turrets." },
+      sneak: { name: "Sneak", gov: "AGI", value: 20, tagged: false, note: "Low-profile tactical reconnaissance." },
+      speech: { name: "Speech", gov: "CHA", value: 39, tagged: true, note: "TAGGED: Leadership dialogue and diplomatic conflict resolution." },
+      survival: { name: "Survival", gov: "END", value: 18, tagged: false, note: "Wasteland hunting, cooking, and disease resistance." },
+      unarmed: { name: "Unarmed", gov: "END", value: 18, tagged: false, note: "Hand-to-hand combat and close grappling." }
+    },
     traits: [
-      { name: "Trigger Discipline", type: "Combat Trait", effect: "+20% Accuracy with firearms, -20% Fire Rate. Enforces deliberate, lethal shot placement." },
-      { name: "Good Natured", type: "Social Trait", effect: "+5 to Speech, Medicine, Repair, Barter; -5 to starting combat weapon proficiencies." }
-    ],
-    tags: ["Guns", "Speech", "Repair"],
-    targets: [
-      { skill: "Explosives", current: 15, goal: "30+", acquired: false, note: "Crucial for Minutemen field artillery accuracy & grenade arcs." },
-      { skill: "Science!", current: 20, goal: "30+", acquired: false, note: "Settlement power grids, industrial water purifiers & laser defenses." },
-      { skill: "Medicine", current: 18, goal: "30+", acquired: false, note: "Immersive Animation Framework (IAF) stimpak stabilization & triage." }
+      { name: "Trigger Discipline", type: "YAE Combat Trait", effect: "+20% Accuracy with firearms, -20% Fire Rate. Enforces deliberate, lethal shot placement." },
+      { name: "Good Natured", type: "YAE Social Trait", effect: "+5 to Speech, Medicine, Repair, Barter; -5 to starting combat weapon proficiencies." }
     ],
     perks: [
-      { level: 2, name: "Rifleman (Rank 1)", acquired: false, detail: "Non-automatic rifles deal +20% damage and ignore 15% armor." },
-      { level: 4, name: "Inspirational (Rank 1)", acquired: false, detail: "Companions deal +20% damage and cannot harm the Commander in crossfire." },
-      { level: 6, name: "Demolition Expert", acquired: false, detail: "Explosives do +25% damage; grants grenade throw trajectory line arc." },
-      { level: 8, name: "Gun Nut / Repair Specialist", acquired: false, detail: "Enables Tier 2 firearm mods & ECO battlefield equipment servicing." },
-      { level: 10, name: "Local Leader (Rank 1)", acquired: false, detail: "Allows creation of supply lines between Minutemen settlement nodes." }
+      { level: 2, name: "Rifleman (Rank 1)", req: "Guns 25, PER 5", acquired: false, detail: "Non-automatic rifles deal +20% damage and ignore 15% armor." },
+      { level: 4, name: "Inspirational (Rank 1)", req: "Speech 35, CHA 7", acquired: false, detail: "Companions deal +20% damage and cannot harm the Commander in crossfire." },
+      { level: 6, name: "Demolition Expert", req: "Explosives 30, PER 5", acquired: false, detail: "Explosives do +25% damage; grants grenade throw trajectory line arc." },
+      { level: 8, name: "Gun Nut / Repair Specialist", req: "Repair 30, INT 5", acquired: false, detail: "Enables Tier 2 firearm mods & ECO battlefield equipment servicing." },
+      { level: 10, name: "Local Leader (Rank 1)", req: "Speech 40, CHA 6", acquired: false, detail: "Allows creation of supply lines between Minutemen settlement nodes." }
     ],
     directives: [
       {
@@ -1834,7 +1850,7 @@ const GENESIS_BASELINES = {
     recordId: "TTW-JS-101783",
     name: "Reeve Sawyer",
     defaultTheme: "theme-amber",
-    modTitle: "Tale of Two Wastelands: Best of Both Worlds / JSawyer",
+    modTitle: "Tale of Two Wastelands: Best of Both Worlds / JSawyer Overhaul",
     archetype: "Naive Vault Expatriate / Aspiring White-Hat Lawman",
     avatarIcon: "🤠",
     badge: "EXILE-101 // COURIER",
@@ -1858,22 +1874,32 @@ const GENESIS_BASELINES = {
       A: { name: "Agility", score: 5, desc: "Balanced holster draw reflexes, hip-fire mobility and sprint stamina." },
       L: { name: "Luck", score: 9, desc: "Guardian angel tier; massive critical frequency and fortunate windfall." }
     },
+    // Complete 13 Classic Skills (TTW / JSawyer System)
+    skills: {
+      barter: { name: "Barter", gov: "CHA", value: 26, tagged: false, note: "Trading supplies and securing fair prices." },
+      energyWeapons: { name: "Energy Weapons", gov: "PER", value: 11, tagged: false, note: "High-tech plasma and laser arms." },
+      explosives: { name: "Explosives", gov: "PER", value: 16, tagged: false, note: "Dynamite, frag grenades & Megaton bomb disarming." },
+      guns: { name: "Guns", gov: "AGI", value: 35, tagged: true, note: "TAGGED: Revolvers, repeaters, and double-barrel shotguns." },
+      lockpick: { name: "Lockpick", gov: "PER", value: 16, tagged: false, note: "Tumbler picking and safe cracking." },
+      medicine: { name: "Medicine", gov: "INT", value: 16, tagged: false, note: "Stimpaks, doctor's bags and addiction care." },
+      meleeWeapons: { name: "Melee Weapons", gov: "STR", value: 20, tagged: false, note: "Combat batons, machetes and hatchets." },
+      repair: { name: "Repair", gov: "INT", value: 21, tagged: false, note: "Megaton water pipes and firearm jury rigging." },
+      science: { name: "Science", gov: "INT", value: 16, tagged: false, note: "Terminal hacking and pre-war computer decryption." },
+      sneak: { name: "Sneak", gov: "AGI", value: 20, tagged: false, note: "Quiet movement and shadow concealment." },
+      speech: { name: "Speech", gov: "CHA", value: 41, tagged: true, note: "TAGGED: Charming dialogue, white-hat negotiation, and de-escalation." },
+      survival: { name: "Survival", gov: "END", value: 37, tagged: true, note: "TAGGED: Campfire crafting, trail rations, and hydration." },
+      unarmed: { name: "Unarmed", gov: "END", value: 22, tagged: false, note: "Bare knuckles and boxing tape." }
+    },
     traits: [
       { name: "Simpleton", type: "JSawyer Trait", effect: "+10% Damage Resistance; permanent -2 penalty to Intelligence skill calculations." },
       { name: "Four Eyes", type: "Sensory Trait", effect: "+2 Perception when wearing glasses/goggles; -1 Perception without eyewear." }
     ],
-    tags: ["Guns", "Survival", "Speech"],
-    targets: [
-      { skill: "Explosives", current: 12, goal: "30", acquired: false, note: "Requirement for Cowboy perk & defusing Megaton's central atomic bomb." },
-      { skill: "Melee Weapons", current: 14, goal: "30", acquired: false, note: "Prerequisite for Cowboy perk (+25% damage with revolvers, lever-actions, knives)." },
-      { skill: "Repair", current: 15, goal: "30+", acquired: false, note: "Crucial for patching Megaton's leaking water pipes and equipment maintenance." }
-    ],
     perks: [
-      { level: 2, name: "Confirmed Bachelor", acquired: false, detail: "+10% damage vs male opponents & unlocks unique diplomatic dialogue options with men." },
-      { level: 4, name: "Lady Killer", acquired: false, detail: "+10% damage vs female opponents & unlocks unique seductive dialogue options with women." },
-      { level: 6, name: "Toughness (Rank 1)", acquired: false, detail: "+3 Damage Threshold (DT) to counteract JSawyer's punishing combat lethality." },
-      { level: 8, name: "Rapid Reload", acquired: false, detail: "All weapon reload times reduced by 25%, essential for tubular-fed lever actions." },
-      { level: 10, name: "Cowboy", acquired: false, detail: "+25% damage with revolvers, lever-actions, dynamite, knives, and hatchets." }
+      { level: 2, name: "Confirmed Bachelor", req: "Level 2", acquired: false, detail: "+10% damage vs male opponents & unlocks unique diplomatic dialogue options with men." },
+      { level: 4, name: "Lady Killer", req: "Level 4", acquired: false, detail: "+10% damage vs female opponents & unlocks unique seductive dialogue options with women." },
+      { level: 6, name: "Toughness (Rank 1)", req: "Level 6, END 5", acquired: false, detail: "+3 Damage Threshold (DT) to counteract JSawyer's punishing combat lethality." },
+      { level: 8, name: "Rapid Reload", req: "Level 8, AGI 5, Guns 30", acquired: false, detail: "All weapon reload times reduced by 25%, essential for tubular-fed lever actions." },
+      { level: 10, name: "Cowboy", req: "Level 10, Guns 45, Melee 45", acquired: false, detail: "+25% damage with revolvers, lever-actions, dynamite, knives, and hatchets." }
     ],
     directives: [
       {
@@ -1961,13 +1987,11 @@ function loadCharacter(charId) {
   if (raw) {
     try {
       const parsed = JSON.parse(raw);
-      // Merge with baseline structure to ensure missing schema fields remain resilient
       return Object.assign({}, GENESIS_BASELINES[charId], parsed);
     } catch (e) {
       console.warn("Storage parse error, falling back to baseline", e);
     }
   }
-  // If not found, clone genesis baseline
   const clone = JSON.parse(JSON.stringify(GENESIS_BASELINES[charId]));
   saveCharacter(charId, clone);
   return clone;
@@ -2063,12 +2087,12 @@ function toggleEditMode() {
     btn.classList.add("edit-mode-active");
     btn.innerHTML = `<span class="ctrl-icon">🔓</span> <span class="ctrl-text">ACCESS: OVERRIDE (EDIT)</span>`;
     playTerminalTone(1600, 0.1, "sawtooth");
-    updatePromptMessage("SECURITY OVERRIDE ENGAGED. LIVE DOSSIER FIELDS UNLOCKED.");
+    updatePromptMessage("SECURITY OVERRIDE ENGAGED. ALL STATS, SKILLS & PERKS UNLOCKED FOR LIVE EDITING.");
   } else {
     btn.classList.remove("edit-mode-active");
     btn.innerHTML = `<span class="ctrl-icon">🔒</span> <span class="ctrl-text">ACCESS: ARCHIVE (READ)</span>`;
     playTerminalTone(800, 0.08, "sine");
-    updatePromptMessage("DOSSIER COMMITTED TO LOCAL STORAGE. READ-ONLY ACTIVE.");
+    updatePromptMessage("DOSSIER COMMITTED TO LOCAL STORAGE. READ-ONLY ARCHIVE ACTIVE.");
   }
   renderDossier(activeCharId);
 }
@@ -2092,6 +2116,38 @@ function handleFieldChange(fieldPath, value) {
   renderDossier(activeCharId);
 }
 
+function updateSpecialScore(key, newScore) {
+  const score = Math.max(1, Math.min(10, parseInt(newScore, 10) || 1));
+  const data = loadCharacter(activeCharId);
+  if (data.special && data.special[key]) {
+    data.special[key].score = score;
+    saveCharacter(activeCharId, data);
+    playKeyClick();
+    renderDossier(activeCharId);
+  }
+}
+
+function updateSkillValue(skillKey, newVal) {
+  const val = Math.max(0, Math.min(100, parseInt(newVal, 10) || 0));
+  const data = loadCharacter(activeCharId);
+  if (data.skills && data.skills[skillKey]) {
+    data.skills[skillKey].value = val;
+    saveCharacter(activeCharId, data);
+    playKeyClick();
+    renderDossier(activeCharId);
+  }
+}
+
+function toggleSkillTagged(skillKey) {
+  const data = loadCharacter(activeCharId);
+  if (data.skills && data.skills[skillKey]) {
+    data.skills[skillKey].tagged = !data.skills[skillKey].tagged;
+    saveCharacter(activeCharId, data);
+    playTerminalTone(data.skills[skillKey].tagged ? 1400 : 600, 0.05, "sine");
+    renderDossier(activeCharId);
+  }
+}
+
 function togglePerkAcquired(idx) {
   const data = loadCharacter(activeCharId);
   if (data.perks && data.perks[idx]) {
@@ -2102,23 +2158,64 @@ function togglePerkAcquired(idx) {
   }
 }
 
-function toggleTargetAcquired(idx) {
+function addCustomPerk() {
+  const name = prompt("Enter Perk Name:");
+  if (!name || !name.trim()) return;
+  const levelStr = prompt("Enter Level Requirement / Tier (e.g. 2, 4, 6):", "2");
+  const reqStr = prompt("Enter S.P.E.C.I.A.L. / Skill Requirements (e.g. Guns 30, PER 6):", "None");
+  const detailStr = prompt("Enter Perk Description & In-Game Effect:", "");
+
   const data = loadCharacter(activeCharId);
-  if (data.targets && data.targets[idx]) {
-    data.targets[idx].acquired = !data.targets[idx].acquired;
+  if (!data.perks) data.perks = [];
+  data.perks.push({
+    level: parseInt(levelStr, 10) || 2,
+    name: name.trim(),
+    req: (reqStr && reqStr.trim()) ? reqStr.trim() : "None",
+    acquired: false,
+    detail: (detailStr && detailStr.trim()) ? detailStr.trim() : "Custom tactical perk."
+  });
+
+  data.perks.sort((a, b) => a.level - b.level);
+  saveCharacter(activeCharId, data);
+  playBeepOk();
+  renderDossier(activeCharId);
+}
+
+function deletePerk(idx) {
+  const data = loadCharacter(activeCharId);
+  if (data.perks && data.perks[idx]) {
+    data.perks.splice(idx, 1);
     saveCharacter(activeCharId, data);
-    playTerminalTone(data.targets[idx].acquired ? 1450 : 550, 0.05, "sine");
+    playTerminalTone(500, 0.05, "sawtooth");
     renderDossier(activeCharId);
   }
 }
 
-function updateSpecialScore(key, newScore) {
-  const score = Math.max(1, Math.min(10, parseInt(newScore, 10) || 1));
+function addCustomTrait() {
+  const name = prompt("Enter Trait Name:");
+  if (!name || !name.trim()) return;
+  const type = prompt("Enter Trait Classification (e.g. Combat Trait, Sensory Trait, Social Trait):", "General Trait");
+  const effect = prompt("Enter Trait Positive & Negative Modifiers:", "");
+
   const data = loadCharacter(activeCharId);
-  if (data.special && data.special[key]) {
-    data.special[key].score = score;
+  if (!data.traits) data.traits = [];
+  data.traits.push({
+    name: name.trim(),
+    type: (type && type.trim()) ? type.trim() : "Trait",
+    effect: (effect && effect.trim()) ? effect.trim() : "Custom physiological modifier."
+  });
+
+  saveCharacter(activeCharId, data);
+  playBeepOk();
+  renderDossier(activeCharId);
+}
+
+function deleteTrait(idx) {
+  const data = loadCharacter(activeCharId);
+  if (data.traits && data.traits[idx]) {
+    data.traits.splice(idx, 1);
     saveCharacter(activeCharId, data);
-    playKeyClick();
+    playTerminalTone(500, 0.05, "sawtooth");
     renderDossier(activeCharId);
   }
 }
@@ -2318,6 +2415,25 @@ function renderDossier(charId) {
   let specialTotal = 0;
   Object.values(data.special).forEach(s => specialTotal += Number(s.score || 0));
 
+  // Calculate Derived Stats (YAE / Classic Fallout Formulae)
+  const str = Number(data.special.S.score || 5);
+  const per = Number(data.special.P.score || 5);
+  const end = Number(data.special.E.score || 5);
+  const cha = Number(data.special.C.score || 5);
+  const intVal = Number(data.special.I.score || 5);
+  const agi = Number(data.special.A.score || 5);
+  const luk = Number(data.special.L.score || 5);
+  const lvl = Number(data.level || 1);
+
+  const calcHP = 100 + (end * 20) + ((lvl - 1) * (end * 2));
+  const calcAP = 65 + (agi * 3);
+  const calcCarry = charId === "nate" ? 150 + (str * 10) : 150 + (str * 10);
+  const calcCrit = luk * 1.0;
+  const calcSkillPts = 10 + Math.floor(intVal * 0.5);
+
+  const skillsObj = data.skills || GENESIS_BASELINES[charId].skills;
+  const taggedCount = Object.values(skillsObj).filter(s => s.tagged).length;
+
   // Build S.P.E.C.I.A.L. rows
   const specialHtml = Object.entries(data.special).map(([key, stat]) => {
     let pips = "";
@@ -2343,43 +2459,48 @@ function renderDossier(charId) {
     `;
   }).join("");
 
-  // Build Tag Skills & Milestones
-  const tagPills = (data.tags || []).map((t, idx) => `
-    <span class="tag-badge">
-      ★ TAGGED: ${isEditMode ? `<input type="text" style="width:80px; background:#000; color:#fff; border:none;" value="${t}" onchange="data = loadCharacter('${charId}'); data.tags[${idx}] = this.value; saveCharacter('${charId}', data); renderDossier('${charId}');">` : t.toUpperCase()}
-    </span>
-  `).join("");
-
-  const targetItems = (data.targets || []).map((tar, idx) => {
+  // Build All 13 Classic Skills Matrix
+  const skillsHtml = Object.entries(skillsObj).map(([key, s]) => {
+    const isTagged = !!s.tagged;
     return `
-      <div class="target-item ${tar.acquired ? 'achieved' : ''}" onclick="toggleTargetAcquired(${idx})" title="Click to toggle milestone">
-        <div class="target-header">
-          <div class="target-left-group">
-            <span class="term-checkbox ${tar.acquired ? 'checked' : ''}">${tar.acquired ? 'X' : ' '}</span>
-            <span class="target-skill-name">${tar.skill}</span>
+      <div class="skill-matrix-item ${isTagged ? 'tagged' : ''}">
+        <div class="skill-item-header">
+          <div class="skill-name-wrap">
+            <span class="skill-stat-gov">${s.gov}</span>
+            <span class="skill-title">${s.name}</span>
+            ${isTagged ? `<span class="skill-tag-pill" onclick="${isEditMode ? `toggleSkillTagged('${key}')` : ''}">TAGGED</span>` : (isEditMode ? `<button class="ctrl-btn" style="padding:0 3px; font-size:0.65rem;" onclick="toggleSkillTagged('${key}')">+TAG</button>` : '')}
           </div>
-          <span class="target-goal">${tar.acquired ? 'ACHIEVED [30+]' : `TARGET: ${tar.goal}`}</span>
+          <div class="skill-score-display">
+            ${isEditMode 
+              ? `<input type="number" min="0" max="100" class="edit-inline-num" value="${s.value}" onchange="updateSkillValue('${key}', this.value)">`
+              : `<span>${s.value}</span>`}
+          </div>
         </div>
-        <div class="progress-track">
-          <div class="progress-fill" style="width: ${tar.acquired ? '100%' : (tar.pct || 50) + '%'}"></div>
+        <div class="skill-progress-bar">
+          <div class="skill-progress-fill" style="width: ${Math.min(100, s.value)}%;"></div>
         </div>
-        <div class="target-rationale">${tar.note}</div>
+        <div style="font-size:0.72rem; color:var(--term-color-dim); margin-top:2px;">
+          ${s.note || ''}
+        </div>
       </div>
     `;
   }).join("");
 
-  // Build Traits
-  const traitsHtml = (data.traits || []).map(tr => `
+  // Build Traits List
+  const traitsHtml = (data.traits || []).map((tr, idx) => `
     <div class="trait-box">
       <div class="trait-header">
         <span>${tr.name}</span>
-        <span class="trait-type">${tr.type}</span>
+        <div>
+          <span class="trait-type">${tr.type}</span>
+          ${isEditMode ? `<button class="trait-del-btn" onclick="deleteTrait(${idx})">DEL</button>` : ''}
+        </div>
       </div>
       <div class="trait-effect">${tr.effect}</div>
     </div>
   `).join("");
 
-  // Build Loadout
+  // Build Loadout List
   const loadoutHtml = (data.loadout || []).map((item, idx) => `
     <li class="loadout-item">
       <span style="color:var(--term-color-dim)">►</span>
@@ -2400,12 +2521,14 @@ function renderDossier(charId) {
         <div class="perk-info">
           <div class="perk-title-row">
             <span class="perk-name">${p.name}</span>
+            ${p.req ? `<span class="perk-req-tag">REQ: ${p.req}</span>` : ''}
             <span class="perk-status">${p.acquired ? '[ACQUIRED]' : '[PLANNED]'}</span>
           </div>
           <div class="perk-detail">${p.detail}</div>
         </div>
-        <div>
+        <div style="display:flex; align-items:center; gap:0.4rem;">
           <span class="term-checkbox ${p.acquired ? 'checked' : ''}">${p.acquired ? 'X' : ' '}</span>
+          ${isEditMode ? `<button class="perk-del-btn" onclick="event.stopPropagation(); deletePerk(${idx});">DEL</button>` : ''}
         </div>
       </div>
     `;
@@ -2509,23 +2632,31 @@ function renderDossier(charId) {
               </span>
             </div>
             <div class="stat-row">
-              <span class="stat-label">QUESTS LOGGED:</span>
-              <span class="stat-value">${completedQuests.length} RECORDS</span>
+              <span class="stat-label">HIT POINTS (HP):</span>
+              <span class="stat-value">${calcHP}</span>
             </div>
             <div class="stat-row">
-              <span class="stat-label">RADIATION:</span>
-              <span class="stat-value">0 RADS</span>
+              <span class="stat-label">ACTION POINTS (AP):</span>
+              <span class="stat-value">${calcAP}</span>
             </div>
             <div class="stat-row">
-              <span class="stat-label">S.P.E.C.I.A.L. POOL:</span>
-              <span class="stat-value">${specialTotal} PTS</span>
+              <span class="stat-label">CARRY WEIGHT:</span>
+              <span class="stat-value">${calcCarry} LBS</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">CRIT CHANCE:</span>
+              <span class="stat-value">${calcCrit}%</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">SKILL PTS / LVL:</span>
+              <span class="stat-value">+${calcSkillPts} PTS</span>
             </div>
           </div>
         </div>
       </section>
 
       <!-- S.P.E.C.I.A.L. ATTRIBUTE SYSTEM -->
-      <section class="robco-card col-7" aria-labelledby="sec-special">
+      <section class="robco-card col-6" aria-labelledby="sec-special">
         <div class="card-title">
           <span id="sec-special">S.P.E.C.I.A.L. BASELINE ATTRIBUTES</span>
           <span class="card-tag">ALLOCATION: ${specialTotal} PTS TOTAL</span>
@@ -2535,52 +2666,60 @@ function renderDossier(charId) {
         </div>
       </section>
 
-      <!-- TAG SKILLS & MILESTONES WITH CHECKBOXES -->
-      <section class="robco-card col-5" aria-labelledby="sec-skills">
+      <!-- TRAITS & ACTIVE GEAR LOADOUT -->
+      <section class="robco-card col-6" aria-labelledby="sec-traits">
         <div class="card-title">
-          <span id="sec-skills">TAG SKILLS & MILESTONE TRACKER</span>
-          <span class="card-tag">CLICK TO CHECK OFF</span>
-        </div>
-        <div class="tags-container">
-          <div class="tagged-skill-pills">
-            ${tagPills}
-          </div>
-          <div class="targets-list">
-            ${targetItems}
-          </div>
-        </div>
-      </section>
-
-      <!-- TRAITS & STARTING LOADOUT -->
-      <section class="robco-card col-4" aria-labelledby="sec-traits">
-        <div class="card-title">
-          <span id="sec-traits">TRAITS & GEAR LOADOUT</span>
-          <span class="card-tag">FIELD INVENTORY</span>
+          <span id="sec-traits">TRAITS & GEAR REQUISITIONS</span>
+          <span class="card-tag">FIELD LOADOUT</span>
         </div>
         <div style="display:flex; flex-direction:column; gap:0.75rem;">
           <div>
-            <div style="font-size:0.8rem; font-weight:bold; color:var(--term-color-dim); margin-bottom:0.35rem;">BIOLOGICAL & PSYCH TRAITS</div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem;">
+              <span style="font-size:0.8rem; font-weight:bold; color:var(--term-color-dim);">TRAITS & INNATE MODIFIERS</span>
+              ${isEditMode ? `<button class="ctrl-btn" style="padding:0 4px; font-size:0.7rem;" onclick="addCustomTrait()">+ ADD TRAIT</button>` : ''}
+            </div>
             <div class="trait-card-list">
               ${traitsHtml}
             </div>
           </div>
           <div style="border-top:1px dashed var(--term-border-dim); padding-top:0.6rem;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem;">
-              <span style="font-size:0.8rem; font-weight:bold; color:var(--term-color-dim);">ACTIVE REQUISITIONS</span>
+              <span style="font-size:0.8rem; font-weight:bold; color:var(--term-color-dim);">ACTIVE REQUISITIONS & ARMOR</span>
+              ${isEditMode ? `<button class="ctrl-btn" style="padding:0 4px; font-size:0.7rem;" onclick="addLoadoutItem()">+ ADD ITEM</button>` : ''}
             </div>
             <ul class="loadout-list">
               ${loadoutHtml}
             </ul>
-            ${isEditMode ? `<button class="btn-add-item" onclick="addLoadoutItem()">+ ADD LOADOUT REQUISITION</button>` : ''}
           </div>
         </div>
       </section>
 
-      <!-- PERK BLUEPRINT WITH INTERACTIVE CHECKBOXES -->
-      <section class="robco-card col-8" aria-labelledby="sec-perks">
+      <!-- FULL 13 SKILLS MATRIX (YOU ARE EXCEPTIONAL / CLASSIC SKILL OVERVIEW) -->
+      <section class="robco-card col-12" aria-labelledby="sec-skills-matrix">
         <div class="card-title">
-          <span id="sec-perks">PERK PROGRESSION BLUEPRINT (LEVELS 1–10)</span>
-          <span class="card-tag">LIVE LOCALSTORAGE TRACKER</span>
+          <span id="sec-skills-matrix">
+            ${charId === 'nate' ? 'YOU ARE EXCEPTIONAL // 13 CLASSIC SKILLS OVERVIEW' : 'CLASSIC WASTELAND // 13 SKILLS MATRIX'}
+          </span>
+          <span class="card-tag">${taggedCount}/3 TAGGED SKILLS ACTIVE</span>
+        </div>
+        <div style="font-size:0.8rem; color:var(--term-color-dim); margin-bottom:0.25rem;">
+          ${charId === 'nate' 
+            ? 'Governed by You Are EXCEPTIONAL (Nexus mod #76739). Skills determine perk eligibility, terminal hacking, weapon mastery, and crafting tiers.' 
+            : 'Governed by JSawyer / TTW Mechanics. Full skill proficiency (0–100) determining dialogue options, combat accuracy, and survival recipes.'}
+        </div>
+        <div class="skills-matrix-grid">
+          ${skillsHtml}
+        </div>
+      </section>
+
+      <!-- PERK BLUEPRINT WITH INTERACTIVE CHECKBOXES & ADD/DELETE -->
+      <section class="robco-card col-12" aria-labelledby="sec-perks">
+        <div class="card-title">
+          <span id="sec-perks">PERK PROGRESSION BLUEPRINT & ACQUIRED PERKS</span>
+          <div>
+            ${isEditMode ? `<button class="ctrl-btn" style="padding:0 6px; font-size:0.75rem;" onclick="addCustomPerk()">+ ADD CUSTOM PERK</button>` : ''}
+            <span class="card-tag">LIVE LOCALSTORAGE TRACKER</span>
+          </div>
         </div>
         <div class="perk-timeline">
           ${perksHtml}
@@ -2668,7 +2807,6 @@ function renderDossier(charId) {
     </div>
   `;
 
-  // Update status footer message
   updatePromptMessage(`RECORD MOUNTED: ${data.recordId} (${data.name.toUpperCase()}). PERSISTENCE READY.`);
 }
 
@@ -2680,12 +2818,10 @@ function switchCharacter(charId) {
   }
   activeCharId = charId;
   
-  // Auto switch phosphor theme based on character context
   const data = loadCharacter(charId);
   const targetTheme = data.defaultTheme || (charId === "nate" ? "theme-green" : "theme-amber");
   changeTheme(targetTheme);
 
-  // Update Tab active states
   const btnNate = document.getElementById("tab-nate");
   const btnReeve = document.getElementById("tab-reeve");
   
@@ -2725,9 +2861,8 @@ document.addEventListener("DOMContentLoaded", () => {
   setInterval(updateClock, 1000);
   updateClock();
 
-  // Audio click listener
   document.addEventListener("click", (e) => {
-    if (e.target.closest("button") || e.target.closest("select") || e.target.closest(".perk-step") || e.target.closest(".target-item") || e.target.closest("summary")) {
+    if (e.target.closest("button") || e.target.closest("select") || e.target.closest(".perk-step") || e.target.closest(".skill-matrix-item") || e.target.closest("summary")) {
       initAudio();
     }
   });
