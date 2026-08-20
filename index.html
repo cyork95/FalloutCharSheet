@@ -482,6 +482,8 @@ body.theme-amber .robco-card:hover {
   font-weight: bold;
   letter-spacing: 0.1em;
   color: var(--term-color-bright);
+  flex-wrap: wrap;
+  gap: 0.4rem;
 }
 
 .card-tag {
@@ -691,21 +693,21 @@ body.theme-amber .special-pip {
 }
 
 /* =============================================================================
-   FULL SKILLS OVERVIEW (YOU ARE EXCEPTIONAL / CLASSIC SKILL MATRIX)
+   EXPANDABLE & EDITABLE SKILLS MATRIX (YOU ARE EXCEPTIONAL / CUSTOM SKILLS)
    ============================================================================= */
 .skills-matrix-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 0.65rem;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 0.75rem;
 }
 
 .skill-matrix-item {
   background: var(--term-bg-subtle);
   border: 1px solid var(--term-border-dim);
-  padding: 0.45rem 0.65rem;
+  padding: 0.6rem 0.75rem;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.35rem;
   transition: all 0.15s ease;
   position: relative;
 }
@@ -717,33 +719,36 @@ body.theme-amber .special-pip {
 
 .skill-matrix-item.tagged {
   border-color: var(--term-color);
-  border-left: 3px solid var(--term-color-bright);
+  border-left: 4px solid var(--term-color-bright);
 }
 
 .skill-item-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 0.4rem;
 }
 
 .skill-name-wrap {
   display: flex;
   align-items: center;
   gap: 0.4rem;
+  flex: 1;
 }
 
 .skill-stat-gov {
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   background: var(--term-bg);
   border: 1px solid var(--term-border-dim);
-  padding: 0 4px;
-  color: var(--term-color-dim);
+  padding: 1px 5px;
+  color: var(--term-color-bright);
+  font-weight: bold;
 }
 
 .skill-title {
   font-weight: bold;
   color: var(--term-color-bright);
-  font-size: 0.88rem;
+  font-size: 0.92rem;
 }
 
 .skill-tag-pill {
@@ -751,21 +756,28 @@ body.theme-amber .special-pip {
   background: var(--term-color);
   color: #000;
   font-weight: bold;
-  padding: 0 4px;
+  padding: 1px 5px;
   cursor: pointer;
+  border: 1px solid var(--term-border);
+}
+
+.skill-tag-pill.untagged-btn {
+  background: transparent;
+  color: var(--term-color-dim);
+  border: 1px dashed var(--term-border-dim);
 }
 
 .skill-score-display {
   font-weight: bold;
   color: var(--term-color-bright);
-  font-size: 0.95rem;
+  font-size: 1rem;
   display: flex;
   align-items: center;
   gap: 0.35rem;
 }
 
 .skill-progress-bar {
-  height: 6px;
+  height: 7px;
   width: 100%;
   background: rgba(24, 255, 98, 0.15);
   border: 1px solid var(--term-border-dim);
@@ -785,6 +797,29 @@ body.theme-amber .skill-progress-bar {
 
 .skill-matrix-item.tagged .skill-progress-fill {
   background: var(--term-color-bright);
+}
+
+.skill-note-text {
+  font-size: 0.75rem;
+  color: var(--term-color-dim);
+  line-height: 1.35;
+}
+
+/* Edit Mode Controls Inside Skill Card */
+.skill-edit-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  background: rgba(0,0,0,0.3);
+  border-top: 1px dashed var(--term-border-dim);
+  padding-top: 0.4rem;
+  margin-top: 0.2rem;
+}
+
+.skill-edit-row {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
 }
 
 /* Traits & Loadout */
@@ -1358,7 +1393,16 @@ details:not([open]) .cutoff-summary::after {
   font-size: 0.85rem;
 }
 
-.loadout-del-btn, .perk-del-btn, .trait-del-btn {
+.edit-inline-select {
+  background: var(--term-bg);
+  color: var(--term-color-bright);
+  border: 1px solid var(--term-border);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  padding: 1px 4px;
+}
+
+.loadout-del-btn, .perk-del-btn, .trait-del-btn, .skill-del-btn {
   background: transparent;
   border: 1px solid var(--term-border-dim);
   color: #ff6b6b;
@@ -1368,7 +1412,7 @@ details:not([open]) .cutoff-summary::after {
   margin-left: 0.4rem;
 }
 
-.loadout-del-btn:hover, .perk-del-btn:hover, .trait-del-btn:hover {
+.loadout-del-btn:hover, .perk-del-btn:hover, .trait-del-btn:hover, .skill-del-btn:hover {
   background: #ff4444;
   color: #fff;
   border-color: #ff4444;
@@ -1456,7 +1500,7 @@ details:not([open]) .cutoff-summary::after {
   width: 100%;
 }
 
-/* Modal Overlay for JSON Import / Export */
+/* Modal Overlay for JSON Import / Export & Add Skill */
 .term-modal-overlay {
   position: fixed;
   top: 0;
@@ -1586,7 +1630,7 @@ details:not([open]) .cutoff-summary::after {
       <div class="header-top-row">
         <div class="brand-block">
           <span class="robco-tag">ROBCO INDUSTRIES (TM)</span>
-          <span class="os-version">TERMLINK PROTOCOL V7.4.0-YAE</span>
+          <span class="os-version">TERMLINK PROTOCOL V7.4.2-YAE</span>
         </div>
         <div class="system-diagnostics">
           <button class="ctrl-btn" id="btn-edit-mode" onclick="toggleEditMode()" title="Toggle Read-Only vs In-Browser Live Edit Mode">
@@ -1709,10 +1753,63 @@ details:not([open]) .cutoff-summary::after {
     </div>
   </div>
 
+  <!-- Modal for Adding / Editing Custom Skill -->
+  <div class="term-modal-overlay hidden" id="skill-modal">
+    <div class="term-modal-box">
+      <div class="modal-header">
+        <span id="skill-modal-title">ROBCO TERMLINK // ADD NEW SKILL</span>
+        <button class="modal-close-btn" onclick="closeSkillModal()">×</button>
+      </div>
+      <p style="font-size:0.8rem; color:var(--term-color-dim);">
+        Configure individual skill parameters for You Are EXCEPTIONAL / Custom Skill Overhauls.
+      </p>
+      <input type="hidden" id="skill-modal-key" value="">
+      <div style="display:flex; flex-direction:column; gap:0.6rem;">
+        <div>
+          <label style="font-size:0.75rem; color:var(--term-color-dim);">SKILL NAME:</label>
+          <input type="text" id="skill-modal-name" class="term-input" placeholder="e.g. Athletics, Heavy Weapons, Crafting, Throwing, Survival...">
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.5rem;">
+          <div>
+            <label style="font-size:0.75rem; color:var(--term-color-dim);">GOVERNING STAT:</label>
+            <select id="skill-modal-gov" class="term-select">
+              <option value="STR">STR (Strength)</option>
+              <option value="PER">PER (Perception)</option>
+              <option value="END">END (Endurance)</option>
+              <option value="CHA">CHA (Charisma)</option>
+              <option value="INT">INT (Intelligence)</option>
+              <option value="AGI">AGI (Agility)</option>
+              <option value="LUK">LUK (Luck)</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:0.75rem; color:var(--term-color-dim);">RATING (0-100):</label>
+            <input type="number" id="skill-modal-val" class="term-input" min="0" max="100" value="25">
+          </div>
+          <div>
+            <label style="font-size:0.75rem; color:var(--term-color-dim);">TAG STATUS:</label>
+            <select id="skill-modal-tagged" class="term-select">
+              <option value="false">UNTAGGED</option>
+              <option value="true">★ TAGGED (+15)</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label style="font-size:0.75rem; color:var(--term-color-dim);">NOTE / PURPOSE DESCRIPTION:</label>
+          <input type="text" id="skill-modal-note" class="term-input" placeholder="e.g. Governs sprint stamina, encumbrance agility, and heavy equipment handling.">
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="ctrl-btn" onclick="closeSkillModal()">CANCEL</button>
+        <button class="ctrl-btn" style="background:var(--term-color); color:#000; font-weight:bold;" onclick="saveSkillModal()">SAVE SKILL</button>
+      </div>
+    </div>
+  </div>
+
   <script>
 /* =============================================================================
    ROBCO UNIFIED OPERATING SYSTEM // TERMLINK JAVASCRIPT ENGINE
-   Full LocalStorage Persistence, Edit Mode, YAE / Classic 13 Skills, Perks & Traits
+   Full LocalStorage Persistence, Individual Skill Editing, Add/Delete Skills & Perks
    ============================================================================= */
 
 // --- 1. FACTORY GENESIS BASELINES ---
@@ -1746,18 +1843,18 @@ const GENESIS_BASELINES = {
       A: { name: "Agility", score: 5, desc: "Tactical repositioning, combat stamina & low-profile rapid reloads." },
       L: { name: "Luck", score: 2, desc: "Deterministic tactical superiority prioritized over VATS critical RNG." }
     },
-    // Complete 13 Classic Skills (You Are EXCEPTIONAL system)
+    // Complete Editable Skills Roster (You Are EXCEPTIONAL system)
     skills: {
-      barter: { name: "Barter", gov: "CHA", value: 24, tagged: false, note: "Prices and trade negotiation." },
-      energyWeapons: { name: "Energy Weapons", gov: "PER", value: 17, tagged: false, note: "Laser, plasma, and gamma weaponry." },
+      barter: { name: "Barter", gov: "CHA", value: 24, tagged: false, note: "Prices, trading, and contract negotiations." },
+      energyWeapons: { name: "Energy Weapons", gov: "PER", value: 17, tagged: false, note: "Laser, plasma, and high-tech weaponry." },
       explosives: { name: "Explosives", gov: "PER", value: 22, tagged: false, note: "Grenades, mines & Minutemen artillery accuracy." },
       guns: { name: "Guns", gov: "AGI", value: 35, tagged: true, note: "TAGGED: Service rifles, carbines, and combat sidearms." },
       lockpick: { name: "Lockpick", gov: "PER", value: 22, tagged: false, note: "Infiltration of pre-war safes and security doors." },
       medicine: { name: "Medicine", gov: "INT", value: 22, tagged: false, note: "IAF stimpak stabilization and combat triage." },
-      meleeWeapons: { name: "Melee Weapons", gov: "STR", value: 18, tagged: false, note: "Trench knives and close-quarters edges." },
+      meleeWeapons: { name: "Melee Weapons", gov: "STR", value: 18, tagged: false, note: "Trench knives and close-quarters combat." },
       repair: { name: "Repair", gov: "INT", value: 32, tagged: true, note: "TAGGED: ECO weapon modding and equipment servicing." },
-      science: { name: "Science", gov: "INT", value: 22, tagged: false, note: "Settlement power grids and high-tech defense turrets." },
-      sneak: { name: "Sneak", gov: "AGI", value: 20, tagged: false, note: "Low-profile tactical reconnaissance." },
+      science: { name: "Science", gov: "INT", value: 22, tagged: false, note: "Settlement power grids, computer hacking, and energy turrets." },
+      sneak: { name: "Sneak", gov: "AGI", value: 20, tagged: false, note: "Low-profile tactical reconnaissance and avoidance." },
       speech: { name: "Speech", gov: "CHA", value: 39, tagged: true, note: "TAGGED: Leadership dialogue and diplomatic conflict resolution." },
       survival: { name: "Survival", gov: "END", value: 18, tagged: false, note: "Wasteland hunting, cooking, and disease resistance." },
       unarmed: { name: "Unarmed", gov: "END", value: 18, tagged: false, note: "Hand-to-hand combat and close grappling." }
@@ -1874,7 +1971,7 @@ const GENESIS_BASELINES = {
       A: { name: "Agility", score: 5, desc: "Balanced holster draw reflexes, hip-fire mobility and sprint stamina." },
       L: { name: "Luck", score: 9, desc: "Guardian angel tier; massive critical frequency and fortunate windfall." }
     },
-    // Complete 13 Classic Skills (TTW / JSawyer System)
+    // Complete Editable Skills Roster (TTW / JSawyer System)
     skills: {
       barter: { name: "Barter", gov: "CHA", value: 26, tagged: false, note: "Trading supplies and securing fair prices." },
       energyWeapons: { name: "Energy Weapons", gov: "PER", value: 11, tagged: false, note: "High-tech plasma and laser arms." },
@@ -2087,7 +2184,7 @@ function toggleEditMode() {
     btn.classList.add("edit-mode-active");
     btn.innerHTML = `<span class="ctrl-icon">🔓</span> <span class="ctrl-text">ACCESS: OVERRIDE (EDIT)</span>`;
     playTerminalTone(1600, 0.1, "sawtooth");
-    updatePromptMessage("SECURITY OVERRIDE ENGAGED. ALL STATS, SKILLS & PERKS UNLOCKED FOR LIVE EDITING.");
+    updatePromptMessage("SECURITY OVERRIDE ENGAGED. EDIT ANY SKILL, STAT, PERK OR LOG INDIVIDUALLY.");
   } else {
     btn.classList.remove("edit-mode-active");
     btn.innerHTML = `<span class="ctrl-icon">🔒</span> <span class="ctrl-text">ACCESS: ARCHIVE (READ)</span>`;
@@ -2127,11 +2224,22 @@ function updateSpecialScore(key, newScore) {
   }
 }
 
+// --- INDIVIDUAL SKILL EDITING ENGINE ---
 function updateSkillValue(skillKey, newVal) {
   const val = Math.max(0, Math.min(100, parseInt(newVal, 10) || 0));
   const data = loadCharacter(activeCharId);
   if (data.skills && data.skills[skillKey]) {
     data.skills[skillKey].value = val;
+    saveCharacter(activeCharId, data);
+    playKeyClick();
+    renderDossier(activeCharId);
+  }
+}
+
+function updateSkillField(skillKey, field, value) {
+  const data = loadCharacter(activeCharId);
+  if (data.skills && data.skills[skillKey]) {
+    data.skills[skillKey][field] = value;
     saveCharacter(activeCharId, data);
     playKeyClick();
     renderDossier(activeCharId);
@@ -2148,6 +2256,92 @@ function toggleSkillTagged(skillKey) {
   }
 }
 
+function openAddSkillModal(editKey = null) {
+  const modal = document.getElementById("skill-modal");
+  const title = document.getElementById("skill-modal-title");
+  const keyInput = document.getElementById("skill-modal-key");
+  const nameInput = document.getElementById("skill-modal-name");
+  const govSelect = document.getElementById("skill-modal-gov");
+  const valInput = document.getElementById("skill-modal-val");
+  const taggedSelect = document.getElementById("skill-modal-tagged");
+  const noteInput = document.getElementById("skill-modal-note");
+
+  if (editKey) {
+    const data = loadCharacter(activeCharId);
+    const s = data.skills[editKey];
+    title.textContent = `ROBCO TERMLINK // EDIT SKILL: ${s.name.toUpperCase()}`;
+    keyInput.value = editKey;
+    nameInput.value = s.name;
+    govSelect.value = s.gov || "AGI";
+    valInput.value = s.value;
+    taggedSelect.value = s.tagged ? "true" : "false";
+    noteInput.value = s.note || "";
+  } else {
+    title.textContent = "ROBCO TERMLINK // ADD NEW SKILL";
+    keyInput.value = "";
+    nameInput.value = "";
+    govSelect.value = "AGI";
+    valInput.value = "25";
+    taggedSelect.value = "false";
+    noteInput.value = "";
+  }
+
+  modal.classList.remove("hidden");
+  playKeyClick();
+}
+
+function closeSkillModal() {
+  document.getElementById("skill-modal").classList.add("hidden");
+  playKeyClick();
+}
+
+function saveSkillModal() {
+  const keyInput = document.getElementById("skill-modal-key").value;
+  const name = document.getElementById("skill-modal-name").value.trim();
+  const gov = document.getElementById("skill-modal-gov").value;
+  const val = Math.max(0, Math.min(100, parseInt(document.getElementById("skill-modal-val").value, 10) || 0));
+  const tagged = document.getElementById("skill-modal-tagged").value === "true";
+  const note = document.getElementById("skill-modal-note").value.trim();
+
+  if (!name) {
+    alert("Please enter a Skill Name.");
+    return;
+  }
+
+  const data = loadCharacter(activeCharId);
+  if (!data.skills) data.skills = {};
+
+  const skillKey = keyInput || name.toLowerCase().replace(/[^a-z0-9]/g, "");
+  data.skills[skillKey] = {
+    name: name,
+    gov: gov,
+    value: val,
+    tagged: tagged,
+    note: note || `Skill governed by ${gov}.`
+  };
+
+  saveCharacter(activeCharId, data);
+  closeSkillModal();
+  playBeepOk();
+  updatePromptMessage(`SKILL REGISTERED / UPDATED: "${name.toUpperCase()}".`);
+  renderDossier(activeCharId);
+}
+
+function deleteSkill(skillKey) {
+  const data = loadCharacter(activeCharId);
+  if (data.skills && data.skills[skillKey]) {
+    const sName = data.skills[skillKey].name;
+    if (confirm(`Remove skill "${sName}" from this character dossier?`)) {
+      delete data.skills[skillKey];
+      saveCharacter(activeCharId, data);
+      playTerminalTone(500, 0.05, "sawtooth");
+      updatePromptMessage(`SKILL PURGED: "${sName}".`);
+      renderDossier(activeCharId);
+    }
+  }
+}
+
+// --- PERKS MANAGEMENT ---
 function togglePerkAcquired(idx) {
   const data = loadCharacter(activeCharId);
   if (data.perks && data.perks[idx]) {
@@ -2191,6 +2385,7 @@ function deletePerk(idx) {
   }
 }
 
+// --- TRAITS & LOADOUT ---
 function addCustomTrait() {
   const name = prompt("Enter Trait Name:");
   if (!name || !name.trim()) return;
@@ -2427,12 +2622,13 @@ function renderDossier(charId) {
 
   const calcHP = 100 + (end * 20) + ((lvl - 1) * (end * 2));
   const calcAP = 65 + (agi * 3);
-  const calcCarry = charId === "nate" ? 150 + (str * 10) : 150 + (str * 10);
+  const calcCarry = 150 + (str * 10);
   const calcCrit = luk * 1.0;
   const calcSkillPts = 10 + Math.floor(intVal * 0.5);
 
   const skillsObj = data.skills || GENESIS_BASELINES[charId].skills;
-  const taggedCount = Object.values(skillsObj).filter(s => s.tagged).length;
+  const skillsList = Object.entries(skillsObj);
+  const taggedCount = skillsList.filter(([k, s]) => s.tagged).length;
 
   // Build S.P.E.C.I.A.L. rows
   const specialHtml = Object.entries(data.special).map(([key, stat]) => {
@@ -2459,16 +2655,18 @@ function renderDossier(charId) {
     `;
   }).join("");
 
-  // Build All 13 Classic Skills Matrix
-  const skillsHtml = Object.entries(skillsObj).map(([key, s]) => {
+  // Build Individual Editable Skills Cards (Dynamic Roster)
+  const skillsHtml = skillsList.map(([key, s]) => {
     const isTagged = !!s.tagged;
     return `
       <div class="skill-matrix-item ${isTagged ? 'tagged' : ''}">
         <div class="skill-item-header">
           <div class="skill-name-wrap">
-            <span class="skill-stat-gov">${s.gov}</span>
+            <span class="skill-stat-gov">${s.gov || 'AGI'}</span>
             <span class="skill-title">${s.name}</span>
-            ${isTagged ? `<span class="skill-tag-pill" onclick="${isEditMode ? `toggleSkillTagged('${key}')` : ''}">TAGGED</span>` : (isEditMode ? `<button class="ctrl-btn" style="padding:0 3px; font-size:0.65rem;" onclick="toggleSkillTagged('${key}')">+TAG</button>` : '')}
+            <span class="skill-tag-pill ${isTagged ? '' : 'untagged-btn'}" onclick="${isEditMode ? `toggleSkillTagged('${key}')` : ''}" title="${isEditMode ? 'Click to toggle Tagged status' : ''}">
+              ${isTagged ? '★ TAGGED' : '+ TAG'}
+            </span>
           </div>
           <div class="skill-score-display">
             ${isEditMode 
@@ -2476,12 +2674,33 @@ function renderDossier(charId) {
               : `<span>${s.value}</span>`}
           </div>
         </div>
+
         <div class="skill-progress-bar">
           <div class="skill-progress-fill" style="width: ${Math.min(100, s.value)}%;"></div>
         </div>
-        <div style="font-size:0.72rem; color:var(--term-color-dim); margin-top:2px;">
-          ${s.note || ''}
+        
+        <div class="skill-note-text">
+          ${s.note || `Governed by ${s.gov}.`}
         </div>
+
+        ${isEditMode ? `
+          <div class="skill-edit-panel">
+            <div class="skill-edit-row">
+              <input type="text" class="edit-inline-text" value="${s.name}" placeholder="Skill Name" onchange="updateSkillField('${key}', 'name', this.value)" style="flex:2;">
+              <select class="edit-inline-select" onchange="updateSkillField('${key}', 'gov', this.value)" style="flex:1;">
+                <option value="STR" ${s.gov === 'STR' ? 'selected' : ''}>STR</option>
+                <option value="PER" ${s.gov === 'PER' ? 'selected' : ''}>PER</option>
+                <option value="END" ${s.gov === 'END' ? 'selected' : ''}>END</option>
+                <option value="CHA" ${s.gov === 'CHA' ? 'selected' : ''}>CHA</option>
+                <option value="INT" ${s.gov === 'INT' ? 'selected' : ''}>INT</option>
+                <option value="AGI" ${s.gov === 'AGI' ? 'selected' : ''}>AGI</option>
+                <option value="LUK" ${s.gov === 'LUK' ? 'selected' : ''}>LUK</option>
+              </select>
+              <button class="skill-del-btn" onclick="deleteSkill('${key}')" title="Delete skill">DEL</button>
+            </div>
+            <input type="text" class="edit-inline-text" value="${s.note || ''}" placeholder="Skill description / in-game effect..." onchange="updateSkillField('${key}', 'note', this.value)">
+          </div>
+        ` : ''}
       </div>
     `;
   }).join("");
@@ -2694,17 +2913,23 @@ function renderDossier(charId) {
         </div>
       </section>
 
-      <!-- FULL 13 SKILLS MATRIX (YOU ARE EXCEPTIONAL / CLASSIC SKILL OVERVIEW) -->
+      <!-- EXPANDABLE & FULLY EDITABLE SKILLS MATRIX -->
       <section class="robco-card col-12" aria-labelledby="sec-skills-matrix">
         <div class="card-title">
-          <span id="sec-skills-matrix">
-            ${charId === 'nate' ? 'YOU ARE EXCEPTIONAL // 13 CLASSIC SKILLS OVERVIEW' : 'CLASSIC WASTELAND // 13 SKILLS MATRIX'}
-          </span>
-          <span class="card-tag">${taggedCount}/3 TAGGED SKILLS ACTIVE</span>
+          <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+            <span id="sec-skills-matrix">
+              ${charId === 'nate' ? 'YOU ARE EXCEPTIONAL // FULL SKILLS MATRIX' : 'CLASSIC WASTELAND // FULL SKILLS MATRIX'}
+            </span>
+            <span class="card-tag">${skillsList.length} TOTAL SKILLS</span>
+            <span class="card-tag">${taggedCount}/3 TAGGED</span>
+          </div>
+          <div>
+            <button class="ctrl-btn" style="padding:0 6px; font-size:0.75rem; background:var(--term-color); color:#000; font-weight:bold;" onclick="openAddSkillModal()">+ ADD NEW SKILL</button>
+          </div>
         </div>
         <div style="font-size:0.8rem; color:var(--term-color-dim); margin-bottom:0.25rem;">
           ${charId === 'nate' 
-            ? 'Governed by You Are EXCEPTIONAL (Nexus mod #76739). Skills determine perk eligibility, terminal hacking, weapon mastery, and crafting tiers.' 
+            ? 'Governed by You Are EXCEPTIONAL (Nexus mod #76739). Supports custom modded skills, individual skill score adjustments, tag toggling, and governing stat assignments.' 
             : 'Governed by JSawyer / TTW Mechanics. Full skill proficiency (0–100) determining dialogue options, combat accuracy, and survival recipes.'}
         </div>
         <div class="skills-matrix-grid">
