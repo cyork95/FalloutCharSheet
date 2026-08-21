@@ -1860,8 +1860,8 @@ const GENESIS_BASELINES = {
       unarmed: { name: "Unarmed", gov: "END", value: 18, tagged: false, note: "Hand-to-hand combat and close grappling." }
     },
     traits: [
-      { name: "Trigger Discipline", type: "YAE Combat Trait", effect: "+20% Accuracy with firearms, -20% Fire Rate. Enforces deliberate, lethal shot placement." },
-      { name: "Good Natured", type: "YAE Social Trait", effect: "+5 to Speech, Medicine, Repair, Barter; -5 to starting combat weapon proficiencies." }
+      { name: "Good Natured", type: "YAE Social Trait", effect: "+5 to Speech, Medicine, Repair, and Barter; -5 to starting combat weapon proficiencies (Guns, Energy Weapons, Explosives, Melee, Unarmed)." },
+      { name: "Trigger Discipline", type: "YAE Combat Trait", effect: "+20% Accuracy with firearms, but reduces fire rate by 20%. Enforces deliberate, lethal shot placement." }
     ],
     perks: [
       { level: 2, name: "Rifleman (Rank 1)", req: "Guns 25, PER 5", acquired: false, detail: "Non-automatic rifles deal +20% damage and ignore 15% armor." },
@@ -1988,8 +1988,8 @@ const GENESIS_BASELINES = {
       unarmed: { name: "Unarmed", gov: "END", value: 22, tagged: false, note: "Bare knuckles and boxing tape." }
     },
     traits: [
-      { name: "Simpleton", type: "JSawyer Trait", effect: "+10% Damage Resistance; permanent -2 penalty to Intelligence skill calculations." },
-      { name: "Four Eyes", type: "Sensory Trait", effect: "+2 Perception when wearing glasses/goggles; -1 Perception without eyewear." }
+      { name: "Four Eyes", type: "Sensory Trait", effect: "+2 Perception when wearing glasses/goggles; -1 Perception without eyewear." },
+      { name: "Simpleton", type: "JSawyer Trait", effect: "+10% Damage Resistance; permanent -2 penalty to Intelligence skill calculations." }
     ],
     perks: [
       { level: 2, name: "Confirmed Bachelor", req: "Level 2", acquired: false, detail: "+10% damage vs male opponents & unlocks unique diplomatic dialogue options with men." },
@@ -2400,9 +2400,24 @@ function addCustomTrait() {
     effect: (effect && effect.trim()) ? effect.trim() : "Custom physiological modifier."
   });
 
+  // Always organize traits in alphabetical (A-Z) order
+  data.traits.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
   saveCharacter(activeCharId, data);
   playBeepOk();
   renderDossier(activeCharId);
+}
+
+function updateTraitField(idx, field, value) {
+  const data = loadCharacter(activeCharId);
+  if (data.traits && data.traits[idx]) {
+    data.traits[idx][field] = value;
+    if (field === 'name') {
+      data.traits.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+    }
+    saveCharacter(activeCharId, data);
+    playKeyClick();
+    renderDossier(activeCharId);
+  }
 }
 
 function deleteTrait(idx) {
@@ -2705,17 +2720,26 @@ function renderDossier(charId) {
     `;
   }).join("");
 
-  // Build Traits List
-  const traitsHtml = (data.traits || []).map((tr, idx) => `
+  // Build Traits List (Alphabetical A-Z)
+  const traitsList = (data.traits || []).slice().sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+  const traitsHtml = traitsList.map((tr, idx) => `
     <div class="trait-box">
       <div class="trait-header">
-        <span>${tr.name}</span>
-        <div>
-          <span class="trait-type">${tr.type}</span>
-          ${isEditMode ? `<button class="trait-del-btn" onclick="deleteTrait(${idx})">DEL</button>` : ''}
+        ${isEditMode 
+          ? `<input type="text" class="edit-inline-text" style="font-weight:bold; width:65%;" value="${tr.name}" onchange="updateTraitField(${idx}, 'name', this.value)" placeholder="Trait Name">`
+          : `<span>${tr.name}</span>`}
+        <div style="display:flex; align-items:center; gap:0.35rem;">
+          ${isEditMode 
+            ? `<input type="text" class="edit-inline-text" style="font-size:0.75rem; width:110px;" value="${tr.type || 'Trait'}" onchange="updateTraitField(${idx}, 'type', this.value)" placeholder="Trait Type">`
+            : `<span class="trait-type">${tr.type || 'Trait'}</span>`}
+          ${isEditMode ? `<button class="trait-del-btn" onclick="deleteTrait(${idx})" title="Delete trait">DEL</button>` : ''}
         </div>
       </div>
-      <div class="trait-effect">${tr.effect}</div>
+      <div class="trait-effect">
+        ${isEditMode 
+          ? `<textarea class="term-textarea" style="height:48px; font-size:0.8rem; margin-top:3px;" onchange="updateTraitField(${idx}, 'effect', this.value)" placeholder="Trait positive & negative modifiers...">${tr.effect}</textarea>`
+          : tr.effect}
+      </div>
     </div>
   `).join("");
 
