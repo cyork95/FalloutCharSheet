@@ -1880,7 +1880,7 @@ const GENESIS_BASELINES = {
       }
     ],
     perks: [
-      { level: 1, name: "Founder's Discount (Rank 1 / 2)", req: "Background: Misplaced Minuteman", acquired: true, detail: "Minutemen founder privilege: improved settlement merchant prices, workshop yields, and trade caravan bonuses." },
+      { level: 1, name: "Founder's Discount (Rank 1 / 2)", req: "Background: Misplaced Minuteman", acquired: true, detail: "You literally made the entire business for them from scratch, why should you pay more? The prices of Settlement vendors are 25% in your favor." },
       { level: 2, name: "Rifleman (Rank 1)", req: "Guns 25, PER 5", acquired: false, detail: "Non-automatic rifles and laser muskets deal +20% damage and ignore 15% armor." },
       { level: 4, name: "Inspirational (Rank 1)", req: "Speech 35, CHA 7", acquired: false, detail: "Companions deal +20% damage and cannot harm the Commander in crossfire." },
       { level: 6, name: "Demolition Expert", req: "Explosives 30, PER 5", acquired: false, detail: "Explosives do +25% damage; grants grenade throw trajectory line arc." },
@@ -2112,6 +2112,9 @@ function loadCharacter(charId) {
           merged.loadout = JSON.parse(JSON.stringify(GENESIS_BASELINES.nate.loadout));
           if (merged.perks && !merged.perks.some(p => p.name.includes("Founder's Discount"))) {
             merged.perks.unshift(JSON.parse(JSON.stringify(GENESIS_BASELINES.nate.perks[0])));
+          } else if (merged.perks) {
+            const fd = merged.perks.find(p => p.name.includes("Founder's Discount"));
+            if (fd) fd.detail = GENESIS_BASELINES.nate.perks[0].detail;
           }
           saveCharacter("nate", merged);
         }
