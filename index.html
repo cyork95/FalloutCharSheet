@@ -1825,10 +1825,18 @@ const GENESIS_BASELINES = {
     badge: "MIL-GEN // V111",
     level: 1,
     morality: "Principled Lawbringer (Good / Minutemen Aligned)",
-    origin: "Pre-War Military Veteran / Vault 111",
+    origin: "Misplaced Minuteman // Commonwealth Patriot",
     companions: "Dogmeat & Preston Garvey",
     factionStanding: "Minutemen: General | BoS: Knight | Railroad: Friendly | Institute: Unknown",
+    background: {
+      name: "Misplaced Minuteman",
+      quote: "I promise to protect the people at a minute's notice. For honor. For family. For the Commonwealth!",
+      modifiers: "Influence +5, Longarms +5, Opportunity +5, Survival +5 | Chemistry -5, Stealth -5",
+      bonusPerk: "Founder's Discount (Level progress)",
+      equipment: "Laser Musket (Fusion cell recipe unlocked), society rebuild supplies"
+    },
     loadout: [
+      "Laser Musket (Fusion Cell Recipe Unlocked)",
       "10mm Standard Semi-Auto Pistol",
       "Militia Service Rifle (M16A1 / Carbine)",
       "Military Combat Knife (Trench Edge)",
@@ -1860,14 +1868,23 @@ const GENESIS_BASELINES = {
       unarmed: { name: "Unarmed", gov: "END", value: 18, tagged: false, note: "Hand-to-hand martial combat, close grappling, and unarmed takedowns." }
     },
     traits: [
-      { name: "Good Natured", type: "YAE Social Trait", effect: "+5 to Speech, Medicine, Repair, and Barter; -5 to starting combat weapon proficiencies (Guns, Energy Weapons, Explosives, Melee, Unarmed)." },
-      { name: "Trigger Discipline", type: "YAE Combat Trait", effect: "+20% Accuracy with firearms, but reduces fire rate by 20%. Enforces deliberate, lethal shot placement." }
+      { 
+        name: "Compulsive Hoarder", 
+        type: "YAE Psychological Trait", 
+        effect: "+50 to Max Carry Weight; -30% penalty to merchant sell prices. You can't help grabbing everything you see, but you're reluctant to sell your trashy treasures." 
+      },
+      { 
+        name: "Four-Eyes", 
+        type: "YAE Sensory Trait", 
+        effect: "+2 PER while wearing any type of glasses; -2 PER penalty and greatly blurred vision without eyewear. You can see better than most, but not without a little extra help." 
+      }
     ],
     perks: [
-      { level: 2, name: "Rifleman (Rank 1)", req: "Guns 25, PER 5", acquired: false, detail: "Non-automatic rifles deal +20% damage and ignore 15% armor." },
+      { level: 1, name: "Founder's Discount (Rank 1 / 2)", req: "Background: Misplaced Minuteman", acquired: true, detail: "Minutemen founder privilege: improved settlement merchant prices, workshop yields, and trade caravan bonuses." },
+      { level: 2, name: "Rifleman (Rank 1)", req: "Guns 25, PER 5", acquired: false, detail: "Non-automatic rifles and laser muskets deal +20% damage and ignore 15% armor." },
       { level: 4, name: "Inspirational (Rank 1)", req: "Speech 35, CHA 7", acquired: false, detail: "Companions deal +20% damage and cannot harm the Commander in crossfire." },
       { level: 6, name: "Demolition Expert", req: "Explosives 30, PER 5", acquired: false, detail: "Explosives do +25% damage; grants grenade throw trajectory line arc." },
-      { level: 8, name: "Gun Nut / Repair Specialist", req: "Repair 30, INT 5", acquired: false, detail: "Enables Tier 2 firearm mods & ECO battlefield equipment servicing." },
+      { level: 8, name: "Gun Nut / Workshop Specialist", req: "Repair 30, INT 5", acquired: false, detail: "Enables Tier 2 firearm mods, laser musket cranking capacitors & ECO battlefield equipment servicing." },
       { level: 10, name: "Local Leader (Rank 1)", req: "Speech 40, CHA 6", acquired: false, detail: "Allows creation of supply lines between Minutemen settlement nodes." }
     ],
     directives: [
@@ -2084,7 +2101,23 @@ function loadCharacter(charId) {
   if (raw) {
     try {
       const parsed = JSON.parse(raw);
-      return Object.assign({}, GENESIS_BASELINES[charId], parsed);
+      const merged = Object.assign({}, GENESIS_BASELINES[charId], parsed);
+      
+      // Auto-migrate Nate's background, traits, and starting perk if legacy placeholder was stored
+      if (charId === "nate") {
+        if (!merged.background || (merged.traits && merged.traits.some(t => t.name === "Trigger Discipline" || t.name === "Good Natured"))) {
+          merged.background = JSON.parse(JSON.stringify(GENESIS_BASELINES.nate.background));
+          merged.traits = JSON.parse(JSON.stringify(GENESIS_BASELINES.nate.traits));
+          merged.origin = GENESIS_BASELINES.nate.origin;
+          merged.loadout = JSON.parse(JSON.stringify(GENESIS_BASELINES.nate.loadout));
+          if (merged.perks && !merged.perks.some(p => p.name.includes("Founder's Discount"))) {
+            merged.perks.unshift(JSON.parse(JSON.stringify(GENESIS_BASELINES.nate.perks[0])));
+          }
+          saveCharacter("nate", merged);
+        }
+      }
+
+      return merged;
     } catch (e) {
       console.warn("Storage parse error, falling back to baseline", e);
     }
@@ -2866,6 +2899,17 @@ function renderDossier(charId) {
             <div class="faction-standing-bar">
               <strong>FACTION STANDINGS:</strong> ${isEditMode ? `<input type="text" class="edit-inline-text" value="${data.factionStanding || ''}" onchange="handleFieldChange('factionStanding', this.value)">` : (data.factionStanding || 'Standard Wasteland Neutrality')}
             </div>
+
+            ${data.background ? `
+              <div style="margin-top:0.4rem; padding:0.45rem 0.65rem; background:rgba(24,255,98,0.06); border:1px dashed var(--term-border-dim); border-left:3px solid var(--term-color);">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.3rem;">
+                  <span style="font-weight:bold; color:var(--term-color-bright); font-size:0.85rem;">BACKGROUND: ${data.background.name.toUpperCase()}</span>
+                  <span style="font-size:0.7rem; color:var(--term-color-dim); border:1px solid var(--term-border-dim); padding:1px 4px;">YAE ORIGIN</span>
+                </div>
+                <div style="font-style:italic; font-size:0.8rem; color:var(--term-color); margin:2px 0;">"${data.background.quote}"</div>
+                <div style="font-size:0.75rem; color:var(--term-color-dim);"><strong>MODIFIERS:</strong> ${data.background.modifiers}</div>
+              </div>
+            ` : ''}
           </div>
 
           <div class="quick-stats-box">
